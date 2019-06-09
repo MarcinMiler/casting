@@ -1,0 +1,15 @@
+version: '3.7'
+
+services:
+    web:
+        container_name: casting-web
+        build:
+            context: ./web
+            dockerfile: dev.Dockerfile
+        volumes:
+            - './web:/usr/src/web'
+            - './web/node_modules:/usr/src/web/node_modules'
+        ports:
+            - '3000:3000'
+        environment:
+            - NODE_ENV=development
