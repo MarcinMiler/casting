@@ -5,4 +5,4 @@ async function bootstrap() {
     const app = await NestFactory.create(AppModule)
     await app.listen(4000)
 }
-bootstrap()
+setTimeout(async () => await bootstrap(), 2000)

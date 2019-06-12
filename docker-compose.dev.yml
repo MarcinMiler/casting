@@ -13,3 +13,30 @@ services:
             - '3000:3000'
         environment:
             - NODE_ENV=development
+    server:
+        container_name: casting-server
+        build:
+            context: ./server
+            dockerfile: dev.Dockerfile
+        environment:
+            DB_HOST: localhost
+            DB_PORT: 5431
+            DB_USER: root
+            DB_PASSWORD: root
+            DB_NAME: casting
+        volumes:
+            - './server:/usr/src/server'
+        depends_on:
+            - db
+        ports:
+            - '4000:4000'
+    db:
+        image: postgres
+        environment:
+            POSTGRES_PASSWORD: root
+            POSTGRES_USER: root
+            POSTGRES_DB: casting
+        volumes:
+            - ./pgdata:/var/lib/postgresql/data
+        ports:
+            - '5431:5432'
