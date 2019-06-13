@@ -8,7 +8,6 @@ services:
             dockerfile: dev.Dockerfile
         volumes:
             - './web:/usr/src/web'
-            - './web/node_modules:/usr/src/web/node_modules'
         ports:
             - '3000:3000'
         environment:
@@ -19,8 +18,8 @@ services:
             context: ./server
             dockerfile: dev.Dockerfile
         environment:
-            DB_HOST: localhost
-            DB_PORT: 5431
+            DB_HOST: db
+            DB_PORT: 5432
             DB_USER: root
             DB_PASSWORD: root
             DB_NAME: casting
@@ -39,4 +38,4 @@ services:
         volumes:
             - ./pgdata:/var/lib/postgresql/data
         ports:
-            - '5431:5432'
+            - '5432:5432'
