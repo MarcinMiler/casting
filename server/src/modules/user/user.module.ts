@@ -1,4 +1,4 @@
-import { Module, forwardRef } from '@nestjs/common'
+import { Module } from '@nestjs/common'
 import { TypeOrmModule } from '@nestjs/typeorm'
 import * as bcrypt from 'bcryptjs'
 
@@ -8,7 +8,7 @@ import { UserService } from './user.service'
 import { User } from './user.entity'
 
 @Module({
-    imports: [TypeOrmModule.forFeature([User]), forwardRef(() => AuthModule)],
+    imports: [TypeOrmModule.forFeature([User]), AuthModule],
     providers: [
         UserService,
         UserResolver,
@@ -16,7 +16,6 @@ import { User } from './user.entity'
             provide: 'bcrypt',
             useValue: bcrypt
         }
-    ],
-    exports: [UserService]
+    ]
 })
 export class UserModule {}

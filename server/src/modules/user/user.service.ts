@@ -13,17 +13,8 @@ export class UserService {
         @InjectRepository(User)
         private readonly userRepository: Repository<User>,
         @Inject('bcrypt') private readonly bcrypt: any,
-        @Inject(forwardRef(() => AuthService))
         private readonly authService: AuthService
     ) {}
-
-    async getById(id: number) {
-        return await this.userRepository.findOne(id)
-    }
-
-    async getAll() {
-        return await this.userRepository.find()
-    }
 
     async register(register: RegisterDto) {
         const { email, password } = register

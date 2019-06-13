@@ -10,7 +10,8 @@
         "outDir": "./dist",
         "baseUrl": "./",
         "incremental": true,
-        "esModuleInterop": true
+        "esModuleInterop": true,
+        "lib": ["esnext.asynciterable"]
     },
     "exclude": ["node_modules"]
 }
