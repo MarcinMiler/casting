@@ -21,8 +21,11 @@ export class CastingService {
         return this.castingRepo.find()
     }
 
-    createCasting(casting: CastingDto) {
-        return this.castingRepo.create({ ...casting }).save()
+    async createCasting(casting: CastingDto) {
+        const newCasting = this.castingRepo.create({ ...casting })
+        await this.castingRepo.save(newCasting)
+
+        return newCasting
     }
 
     deleteCasting(id: number) {
