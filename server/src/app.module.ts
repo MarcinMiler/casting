@@ -4,10 +4,12 @@ import { GraphQLModule } from '@nestjs/graphql'
 import { join } from 'path'
 
 import { UserModule } from './modules/user/user.module'
+import { CastingModule } from './modules/casting/casting.module'
 
 @Module({
     imports: [
         UserModule,
+        CastingModule,
         TypeOrmModule.forRoot({
             type: 'postgres',
             host: 'localhost',

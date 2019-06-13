@@ -8,16 +8,6 @@ import { LoginDto } from './dto/login.dto'
 export class UserResolver {
     constructor(private readonly userService: UserService) {}
 
-    @Query('user')
-    getUser(@Args('id') id: number) {
-        return this.userService.getById(id)
-    }
-
-    @Query('users')
-    getUsers() {
-        return this.userService.getAll()
-    }
-
     @Mutation('register')
     register(@Args('input') register: RegisterDto) {
         return this.userService.register(register)
