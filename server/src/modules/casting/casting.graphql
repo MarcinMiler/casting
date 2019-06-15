@@ -1,0 +1,27 @@
+type Query {
+    casting(id: Int!): Casting!
+    castings: [Casting!]
+}
+
+type Mutation {
+    createCasting(input: CastingInput!): Casting
+    updateCasting(id: Int!, input: CastingInput!): Casting
+    deleteCasting(id: ID!): Boolean!
+}
+
+input CastingInput {
+    title: String!
+    description: String!
+    city: String!
+    startDate: String!
+    duration: String!
+}
+
+type Casting {
+    id: Int!
+    title: String!
+    description: String!
+    city: String!
+    startDate: String!
+    duration: String!
+}
