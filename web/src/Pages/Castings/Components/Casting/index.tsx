@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-import { StyledLink } from '../../../../Components'
+import { StyledLink } from 'Components'
 import { Container } from './style'
 
 interface Props {

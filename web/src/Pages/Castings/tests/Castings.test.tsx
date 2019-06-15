@@ -2,11 +2,7 @@ import * as React from 'react'
 import { cleanup, waitForElement, getAllByTestId } from '@testing-library/react'
 import 'jest-dom/extend-expect'
 
-import {
-    MockProvider,
-    createClient,
-    renderWithRouter
-} from '../../../TetsUtils'
+import { MockProvider, createClient, renderWithRouter } from 'TetsUtils'
 import { castingMock } from './mocks'
 import CastingsPage from '..'
 
