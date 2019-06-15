@@ -8,6 +8,7 @@ module.exports = {
         'react/jsx-indent-props': 0,
         'jsx-quotes': 0,
         'import/prefer-default-export': 0,
-        'import/no-extraneous-dependencies': 0
+        'import/no-extraneous-dependencies': 0,
+        'react/prop-types': 0
     }
 }
