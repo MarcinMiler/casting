@@ -26,7 +26,7 @@ import { CastingModule } from './modules/casting/casting.module'
             installSubscriptionHandlers: true,
             definitions: {
                 path: join(process.cwd(), 'src/graphql.schema.ts'),
-                outputAs: 'class'
+                outputAs: 'interface'
             },
             path: '/'
         })

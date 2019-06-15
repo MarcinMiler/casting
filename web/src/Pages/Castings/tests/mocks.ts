@@ -1,4 +1,4 @@
-import { CastingsQuery } from 'graphql'
+import { CastingsQuery } from 'ApolloGraphQl'
 import { graphqlMock } from 'TetsUtils'
 
 export const castingMock = graphqlMock({
