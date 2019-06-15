@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { useQuery } from '@apollo/react-hooks'
 
-import { CastingsQuery } from '../../GraphQl'
+import { CastingsQuery } from 'graphql'
 import { Casting, CastingsPlaceholder } from './Components/Casting'
 import { Container, CastingsWrapper } from './styles'
 

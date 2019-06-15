@@ -1,5 +1,5 @@
-import { CastingsQuery } from '../../../GraphQl'
-import { graphqlMock } from '../../../TetsUtils'
+import { CastingsQuery } from 'graphql'
+import { graphqlMock } from 'TetsUtils'
 
 export const castingMock = graphqlMock({
     query: CastingsQuery,
