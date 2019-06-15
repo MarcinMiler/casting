@@ -5,6 +5,7 @@ module.exports = {
         semi: 0,
         'import/no-unresolved': 0,
         'react/jsx-indent': ['warning', 4],
-        'jsx-quotes': 0
+        'jsx-quotes': 0,
+        'import/prefer-default-export': 0
     }
 }
