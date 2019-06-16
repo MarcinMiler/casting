@@ -8,7 +8,7 @@ interface Props {
 }
 
 export const Casting: React.FC<Props> = ({ casting }) => (
-    <StyledLink to={`/casting:${casting.id}`}>
+    <StyledLink to={`/casting/${casting.id}`}>
         <Container data-testid="casting-item">
             <h1>{casting.title}</h1>
         </Container>
