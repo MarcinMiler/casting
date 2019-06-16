@@ -13,3 +13,4 @@ export const CastingsWrapper = styled.div`
     padding: 10px 40px 0 40px;
     overflow: auto;
 `
+export const MapWrapper = styled.div``

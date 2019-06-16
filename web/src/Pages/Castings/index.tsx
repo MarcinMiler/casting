@@ -3,7 +3,8 @@ import { useQuery } from '@apollo/react-hooks'
 
 import { CastingsQuery } from 'ApolloGraphQl'
 import { Casting, CastingsPlaceholder } from './Components/Casting'
-import { Container, CastingsWrapper } from './styles'
+import { Container, CastingsWrapper, MapWrapper } from './styles'
+import { Map } from './Components/Map'
 
 interface Props {}
 
@@ -21,6 +22,9 @@ const CastingsPage: React.FC<Props> = () => {
                     ))
                 )}
             </CastingsWrapper>
+            <MapWrapper>
+                <Map />
+            </MapWrapper>
         </Container>
     )
 }
