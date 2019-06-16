@@ -8,5 +8,9 @@ export const routes = [
     {
         path: '/castings',
         component: React.lazy(() => import('../Pages/Castings'))
+    },
+    {
+        path: '/casting/:id',
+        component: React.lazy(() => import('../Pages/Casting'))
     }
 ]
