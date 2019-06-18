@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-export const useWizard = (maxSteps: number, initialStep = 0) => {
+export const useWizard = (maxSteps: number, initialStep = 1) => {
     const [step, setStep] = useState(initialStep)
 
     const nextPage = () => {
@@ -10,7 +10,7 @@ export const useWizard = (maxSteps: number, initialStep = 0) => {
     }
 
     const prevPage = () => {
-        if (step === 0) return
+        if (step === 1) return
 
         setStep(step - 1)
     }

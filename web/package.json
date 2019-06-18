@@ -51,6 +51,7 @@
         "@types/react-leaflet": "^2.2.1",
         "@types/react-router-dom": "^4.3.3",
         "@types/styled-components": "^4.1.16",
+        "@types/yup": "^0.26.16",
         "@typescript-eslint/eslint-plugin": "^1.10.2",
         "apollo-link-mock": "^1.0.1",
         "eslint-config-airbnb": "^17.1.0",
