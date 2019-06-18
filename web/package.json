@@ -10,6 +10,7 @@
         "@types/react-dom": "16.8.4",
         "apollo-boost": "^0.4.2",
         "apollo-client": "^2.6.2",
+        "formik": "^1.5.7",
         "graphql": "^14.3.1",
         "leaflet": "^1.5.1",
         "react": "^16.9.0-alpha.0",
@@ -21,7 +22,8 @@
         "react-router-dom": "^5.0.1",
         "react-scripts": "3.0.1",
         "styled-components": "^4.3.1",
-        "typescript": "3.4.5"
+        "typescript": "3.4.5",
+        "yup": "^0.27.0"
     },
     "scripts": {
         "start": "react-scripts start",
@@ -49,6 +51,7 @@
         "@types/react-leaflet": "^2.2.1",
         "@types/react-router-dom": "^4.3.3",
         "@types/styled-components": "^4.1.16",
+        "@types/yup": "^0.26.16",
         "@typescript-eslint/eslint-plugin": "^1.10.2",
         "apollo-link-mock": "^1.0.1",
         "eslint-config-airbnb": "^17.1.0",
