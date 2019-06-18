@@ -14,5 +14,7 @@ export const CreateCastingSchema = yup.object().shape({
         .min(2)
         .required(),
     startDate: yup.date().required(),
-    duration: yup.string().required()
+    duration: yup.string().required(),
+    lat: yup.number(),
+    lng: yup.number()
 })
