@@ -10,6 +10,7 @@ export const Routes = () => (
         <Switch>
             {routes.map(route => (
                 <Route
+                    exact
                     key={route.path}
                     path={route.path}
                     component={route.component}

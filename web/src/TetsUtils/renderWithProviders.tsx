@@ -2,8 +2,11 @@ import * as React from 'react'
 import { Router } from 'react-router'
 import { createMemoryHistory } from 'history'
 import { render } from '@testing-library/react'
+import { ThemeProvider } from 'styled-components'
 
-export function renderWithRouter(
+import { theme } from 'Theme'
+
+export function renderWithProviders(
     ui: JSX.Element,
     {
         route = '/',
@@ -11,7 +14,11 @@ export function renderWithRouter(
     } = {}
 ) {
     return {
-        ...render(<Router history={history}>{ui}</Router>),
+        ...render(
+            <ThemeProvider theme={theme}>
+                <Router history={history}>{ui}</Router>
+            </ThemeProvider>
+        ),
         history
     }
 }

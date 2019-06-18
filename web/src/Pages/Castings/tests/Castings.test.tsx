@@ -2,7 +2,7 @@ import * as React from 'react'
 import { cleanup, waitForElement, getAllByTestId } from '@testing-library/react'
 import 'jest-dom/extend-expect'
 
-import { MockProvider, createClient, renderWithRouter } from 'TetsUtils'
+import { MockProvider, createClient, renderWithProviders } from 'TetsUtils'
 import { castingMock } from './mocks'
 import CastingsPage from '..'
 
@@ -12,7 +12,7 @@ describe('Castings Component', () => {
     it('should fetch castings', async () => {
         const client = createClient(castingMock)
 
-        const { container } = renderWithRouter(
+        const { container } = renderWithProviders(
             <MockProvider client={client} mocks={castingMock}>
                 <CastingsPage />
             </MockProvider>
@@ -28,7 +28,7 @@ describe('Castings Component', () => {
     it('should show placeholder on loading', () => {
         const client = createClient(castingMock)
 
-        const { container } = renderWithRouter(
+        const { container } = renderWithProviders(
             <MockProvider client={client} mocks={castingMock}>
                 <CastingsPage />
             </MockProvider>
