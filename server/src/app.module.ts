@@ -10,16 +10,33 @@ import { CastingModule } from './modules/casting/casting.module'
     imports: [
         UserModule,
         CastingModule,
-        TypeOrmModule.forRoot({
-            type: 'postgres',
-            host: 'localhost',
-            port: 5431,
-            username: 'root',
-            password: 'root',
-            database: 'casting',
-            entities: [__dirname + '/**/*.entity{.ts,.js}'],
-            synchronize: true
-        }),
+        TypeOrmModule.forRoot(
+            process.env.NODE_ENV === 'dev'
+                ? {
+                      type: 'postgres',
+                      host: 'localhost',
+                      port: 5431,
+                      username: 'root',
+                      password: 'root',
+                      database: 'casting',
+                      entities: [__dirname + '/**/*.entity{.ts,.js}'],
+                      synchronize: true
+                  }
+                : {
+                      type: 'postgres',
+                      host: process.env.DB_HOST,
+                      url: process.env.DATABASE_URL,
+                      port: 5432,
+                      username: process.env.DB_USER,
+                      password: process.env.DB_PASSWORD,
+                      database: process.env.DB_DATABASE_NAME,
+                      entities: [__dirname + '/**/*.entity{.ts,.js}'],
+                      synchronize: true,
+                      extra: {
+                          ssl: true
+                      }
+                  }
+        ),
         GraphQLModule.forRoot({
             context: ({ req }) => ({ req }),
             typePaths: ['./**/*.graphql'],
