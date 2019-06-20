@@ -1,5 +1,5 @@
 type Query {
-    casting(id: Int!): Casting!
+    casting(id: ID!): Casting!
     castings: [Casting!]
 }
 
