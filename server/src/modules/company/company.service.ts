@@ -33,14 +33,14 @@ export class CompanyService {
     }
 
     async deleteCompany(userId: number, id: number) {
-        const isValidUserId = this.compareUsersIds(userId)
+        const isValidUserId = await this.compareUsersIds(id, userId)
 
         if (!isValidUserId) {
             return false
         }
 
         try {
-            this.companyRepo.delete(id)
+            await this.companyRepo.delete(id)
             return true
         } catch (err) {
             return false
@@ -48,7 +48,7 @@ export class CompanyService {
     }
 
     async updateCompany(userId: number, id: number, company: CompanyDto) {
-        const isValidUserId = this.compareUsersIds(userId)
+        const isValidUserId = await this.compareUsersIds(id, userId)
 
         if (!isValidUserId) {
             return false
@@ -57,12 +57,10 @@ export class CompanyService {
         return this.companyRepo.update(id, company)
     }
 
-    async compareUsersIds(userId: number) {
-        const companyUser = await this.companyRepo.findOne({
-            where: { userId }
-        })
+    async compareUsersIds(id: number, userId: number) {
+        const company = await this.companyRepo.findOne(id)
 
-        if (companyUser.id !== userId) {
+        if (!company || company.userId !== userId) {
             return false
         }
 
