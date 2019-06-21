@@ -1,5 +1,6 @@
 import * as TypeMoq from 'typemoq'
 import { Repository } from 'typeorm'
+
 import { Casting } from './casting.entity'
 import { CastingService } from './casting.service'
 import { CastingDto } from './dto/casting.dto'
@@ -16,13 +17,22 @@ describe('Casting module', () => {
         duration: '12h'
     }
 
-    const mockCasting: Casting = {
+    const mockCasting = {
         id: 1,
         title: 'title',
         description: 'descrption',
         city: 'city',
         startDate: '11-07-2019',
-        duration: '12h'
+        duration: '12h',
+        companyId: 1,
+        company: {
+            id: 1,
+            name: 'name',
+            logo: 'logo',
+            description: 'desc',
+            userId: 1,
+            castings: []
+        }
     }
 
     const mockCastings = [mockCasting, mockCasting]

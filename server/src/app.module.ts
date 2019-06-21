@@ -4,11 +4,13 @@ import { GraphQLModule } from '@nestjs/graphql'
 import { join } from 'path'
 
 import { UserModule } from './modules/user/user.module'
+import { CompanyModule } from './modules/company/company.module'
 import { CastingModule } from './modules/casting/casting.module'
 
 @Module({
     imports: [
         UserModule,
+        CompanyModule,
         CastingModule,
         TypeOrmModule.forRoot(
             process.env.NODE_ENV === 'dev'
