@@ -3,6 +3,11 @@ import { withRouter, RouteComponentProps } from 'react-router-dom'
 import { useQuery } from '@apollo/react-hooks'
 
 import { CastingQuery } from 'ApolloGraphQl'
+import {
+    CastingQuery as CastingQueryType,
+    CastingQueryVariables
+} from 'GraphqlTypes/CastingQuery'
+
 import { Container } from './style'
 
 interface Params {
@@ -12,15 +17,18 @@ interface Params {
 interface Props extends RouteComponentProps<Params> {}
 
 const CastingPage: React.FC<Props> = ({ match }) => {
-    const { data, loading } = useQuery(CastingQuery, {
-        variables: {
-            id: match.params.id
+    const { data, loading } = useQuery<CastingQueryType, CastingQueryVariables>(
+        CastingQuery,
+        {
+            variables: {
+                id: match.params.id
+            }
         }
-    })
+    )
 
     return (
         <Container>
-            {!loading && (
+            {!loading && data && (
                 <div data-testid="casting">{JSON.stringify(data.casting)}</div>
             )}
         </Container>
