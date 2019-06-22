@@ -2,6 +2,7 @@ import gql from 'graphql-tag'
 
 export const CreateCastingMutation = gql`
     mutation CreateCastingMutation(
+        $companyId: ID!
         $title: String!
         $description: String!
         $city: String!
@@ -10,6 +11,7 @@ export const CreateCastingMutation = gql`
     ) {
         createCasting(
             input: {
+                companyId: $companyId
                 title: $title
                 description: $description
                 city: $city

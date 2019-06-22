@@ -10,6 +10,7 @@ describe('Casting module', () => {
     let castingService: CastingService
 
     const mockCastingDto: CastingDto = {
+        companyId: 1,
         title: 'title',
         description: 'descrption',
         city: 'city',

@@ -10,6 +10,7 @@ type Mutation {
 }
 
 input CastingInput {
+    companyId: ID!
     title: String!
     description: String!
     city: String!

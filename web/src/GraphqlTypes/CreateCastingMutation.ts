@@ -21,6 +21,7 @@ export interface CreateCastingMutation {
 }
 
 export interface CreateCastingMutationVariables {
+    companyId: string
     title: string
     description: string
     city: string

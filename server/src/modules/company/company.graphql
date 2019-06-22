@@ -4,7 +4,7 @@ type Query {
 }
 
 type Mutation {
-    createCompany(userId: ID!, input: CompanyInput!): Company
+    createCompany(input: CompanyInput!): Company
     updateCompany(id: ID!, input: CompanyInput!): Company
     deleteCompany(id: ID!): Boolean!
 }
@@ -17,6 +17,7 @@ input CompanyInput {
 
 type Company {
     id: ID!
+    userId: ID!
     name: String!
     logo: String!
     description: String!
