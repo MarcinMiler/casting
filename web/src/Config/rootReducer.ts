@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux'
 
-import { castingReducer } from 'Modules/Casting/reducer'
+import { castingsReducer } from 'Modules/Casting/reducer'
 
 export const rootReducer = combineReducers({
-    castingReducer
+    castings: castingsReducer
 })

@@ -11,9 +11,17 @@ export const defaultCastingState = {
     castings: []
 }
 
-export const castingReducer = createReducer<CastingState, any>(
+export const castingsReducer = createReducer<CastingState, any>(
     defaultCastingState
-).handleAction(actions.GET_CASTINGS_SUCCEED, (state: any, action: any) => ({
-    ...state,
-    ...action.payload.data
-}))
+)
+    .handleAction(actions.GET_CASTINGS_SUCCEED, (state: any, action: any) => ({
+        ...state,
+        ...action.payload.data
+    }))
+    .handleAction(
+        actions.CREATE_CASTING_SUCCEED,
+        (state: any, action: any) => ({
+            ...state,
+            castings: [...state.castings, action.payload.data.createCasting]
+        })
+    )
