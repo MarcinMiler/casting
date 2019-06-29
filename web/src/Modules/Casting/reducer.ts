@@ -1,19 +1,19 @@
 import { createReducer } from 'typesafe-actions'
 
-import { AppAction } from 'ReduxConfig/rootAction'
-
 import * as actions from './actions'
+import { Casting } from './models'
 
 export interface CastingState {
-    count: number
+    castings: Casting[]
 }
 
 export const defaultCastingState = {
-    count: 0
+    castings: []
 }
 
-export const castingReducer = createReducer<CastingState, AppAction>(
+export const castingReducer = createReducer<CastingState, any>(
     defaultCastingState
-).handleAction(actions.pongAction, (state, action) => ({
-    count: 1
+).handleAction(actions.GET_CASTINGS_SUCCEED, (state: any, action: any) => ({
+    ...state,
+    ...action.payload.data
 }))
