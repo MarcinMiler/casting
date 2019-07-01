@@ -1,7 +1,7 @@
 import * as React from 'react'
 
 import { CastingsContainer } from 'Modules/Casting/Containers/Castings'
-import { Map } from 'Components'
+import { MapCastingsContainer } from 'Modules/Casting/Containers/Map'
 import { Container, CastingsWrapper, MapWrapper } from './style'
 
 const CastingsPage: React.FC = () => (
@@ -10,7 +10,7 @@ const CastingsPage: React.FC = () => (
             <CastingsContainer />
         </CastingsWrapper>
         <MapWrapper>
-            <Map />
+            <MapCastingsContainer />
         </MapWrapper>
     </Container>
 )

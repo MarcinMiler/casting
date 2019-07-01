@@ -6,6 +6,8 @@ export const CreateCastingMutation = gql`
         $title: String!
         $description: String!
         $city: String!
+        $lat: Float!
+        $lng: Float!
         $startDate: String!
         $duration: String!
     ) {
@@ -15,6 +17,8 @@ export const CreateCastingMutation = gql`
                 title: $title
                 description: $description
                 city: $city
+                lat: $lat
+                lng: $lng
                 startDate: $startDate
                 duration: $duration
             }
@@ -23,6 +27,8 @@ export const CreateCastingMutation = gql`
             title
             description
             city
+            lat
+            lng
             startDate
             duration
         }

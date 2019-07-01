@@ -14,17 +14,14 @@ describe('Casting module', () => {
         title: 'title',
         description: 'descrption',
         city: 'city',
+        lat: 1,
+        lng: 1,
         startDate: '11-07-2019',
         duration: '12h'
     }
 
     const mockCasting = {
-        id: 1,
-        title: 'title',
-        description: 'descrption',
-        city: 'city',
-        startDate: '11-07-2019',
-        duration: '12h',
+        ...mockCastingDto,
         companyId: 1,
         company: {
             id: 1,
@@ -35,8 +32,6 @@ describe('Casting module', () => {
             castings: []
         }
     }
-
-    const mockCastings = [mockCasting, mockCasting]
 
     beforeEach(() => {
         mockCastingRepo = TypeMoq.Mock.ofType<Repository<Casting>>()
