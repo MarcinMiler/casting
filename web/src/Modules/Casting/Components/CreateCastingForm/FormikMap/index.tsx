@@ -1,19 +1,21 @@
 import * as React from 'react'
 import { FieldProps } from 'formik'
+import { LeafletMouseEvent } from 'leaflet'
 
 import { Map } from 'Components'
 
 interface Props extends FieldProps {}
 
 export const FormikMap: React.FC<Props> = ({ form: { setValues, values } }) => {
-    const setLocation = (e: any) => {
-        const { lat, lng } = e.latlng
+    const [position, setPosition] = React.useState({ lat: 0, lng: 0 })
 
+    const setLocation = ({ latlng }: LeafletMouseEvent) => {
         setValues({
             ...values,
-            lat,
-            lng
+            ...latlng
         })
+
+        setPosition({ ...latlng })
     }
-    return <Map onClick={setLocation} />
+    return <Map onClick={setLocation} markers={[position]} />
 }

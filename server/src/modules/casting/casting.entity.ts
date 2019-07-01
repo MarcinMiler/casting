@@ -16,6 +16,12 @@ export class Casting {
     @Column()
     city: string
 
+    @Column('double precision')
+    lat: number
+
+    @Column('double precision')
+    lng: number
+
     @Column()
     startDate: string
 

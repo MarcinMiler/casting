@@ -15,14 +15,16 @@ export const CreateCastingSchema = yup.object().shape({
         .required(),
     startDate: yup.date().required(),
     duration: yup.string().required(),
-    lat: yup.number(),
-    lng: yup.number()
+    lat: yup.number().required(),
+    lng: yup.number().required()
 })
 
 export const createCastingInitialState = {
     title: '',
     description: '',
     city: '',
+    lat: 0,
+    lng: 0,
     startDate: '',
     duration: '',
     companyId: 1

@@ -7,6 +7,8 @@ export const CastingsQuery = gql`
             title
             description
             city
+            lat
+            lng
             startDate
             duration
         }
