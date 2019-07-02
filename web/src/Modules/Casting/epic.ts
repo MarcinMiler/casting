@@ -20,7 +20,7 @@ export const castingEpicFactory = (castingService: CastingService): Epic => {
             filter(isOfType(actions.CREATE_CASTING_REQUEST)),
             pluck('payload'),
             switchMap(variables => castingService.createCasting(variables)),
-            map(data => actions.createCastingSucceed(data))
+            map(res => actions.createCastingSucceed(res.data.createCasting))
         )
 
     return combineEpics(fetchCastingsEpic, createCastingEpic)

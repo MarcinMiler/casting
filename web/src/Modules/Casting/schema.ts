@@ -20,12 +20,12 @@ export const CreateCastingSchema = yup.object().shape({
 })
 
 export const createCastingInitialState = {
+    companyId: '1',
     title: '',
     description: '',
     city: '',
     lat: 0,
     lng: 0,
     startDate: '',
-    duration: '',
-    companyId: 1
+    duration: ''
 }
