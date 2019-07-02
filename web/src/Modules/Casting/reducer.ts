@@ -1,13 +1,13 @@
 import { createReducer } from 'typesafe-actions'
 
+import { CastingQuery_casting } from 'GraphqlTypes'
 import * as actions from './actions'
-import { Casting } from './models'
 
 export interface CastingState {
-    castings: Casting[]
+    castings: CastingQuery_casting[]
 }
 
-export const defaultCastingState = {
+export const defaultCastingState: CastingState = {
     castings: []
 }
 
@@ -22,6 +22,6 @@ export const castingsReducer = createReducer<CastingState, any>(
         actions.CREATE_CASTING_SUCCEED,
         (state: any, action: any) => ({
             ...state,
-            castings: [...state.castings, action.payload.data.createCasting]
+            castings: [...state.castings, action.payload]
         })
     )

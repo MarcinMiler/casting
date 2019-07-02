@@ -22,6 +22,7 @@ input CastingInput {
 
 type Casting {
     id: Int!
+    companyId: ID!
     title: String!
     description: String!
     city: String!

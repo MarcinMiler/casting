@@ -24,6 +24,7 @@ export const CreateCastingMutation = gql`
             }
         ) {
             id
+            companyId
             title
             description
             city

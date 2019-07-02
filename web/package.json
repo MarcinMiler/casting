@@ -64,6 +64,7 @@
         "eslint-config-prettier": "^4.3.0",
         "eslint-config-react-app": "^4.0.1",
         "jest-dom": "^3.5.0",
-        "redux-devtools-extension": "^2.13.8"
+        "redux-devtools-extension": "^2.13.8",
+        "typemoq": "^2.1.0"
     }
 }

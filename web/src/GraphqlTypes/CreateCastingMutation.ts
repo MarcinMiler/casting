@@ -7,11 +7,13 @@
 // ====================================================
 
 export interface CreateCastingMutation_createCasting {
-    __typename: 'Casting'
     id: number
+    companyId: string
     title: string
     description: string
     city: string
+    lat: number
+    lng: number
     startDate: string
     duration: string
 }
@@ -25,6 +27,8 @@ export interface CreateCastingMutationVariables {
     title: string
     description: string
     city: string
+    lat: number
+    lng: number
     startDate: string
     duration: string
 }

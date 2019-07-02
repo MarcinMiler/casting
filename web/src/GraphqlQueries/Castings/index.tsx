@@ -4,6 +4,7 @@ export const CastingsQuery = gql`
     query CastingsQuery {
         castings {
             id
+            companyId
             title
             description
             city

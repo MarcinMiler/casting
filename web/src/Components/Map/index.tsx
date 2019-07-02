@@ -25,7 +25,7 @@ export const Map: React.FC<Props> = ({ onClick, markers = [] }) => (
         />
 
         {markers.map(marker => (
-            <Marker position={marker} />
+            <Marker key={`${marker.lat}-${marker.lng}}`} position={marker} />
         ))}
     </LeafletMap>
 )
