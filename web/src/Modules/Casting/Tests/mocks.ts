@@ -17,11 +17,7 @@ export const CastingMock = {
 
 export const ApolloCastingsMock: ApolloQueryResult<CastingsQuery> = {
     data: {
-        castings: [
-            {
-                ...CastingMock
-            }
-        ]
+        castings: [CastingMock]
     },
     networkStatus: 1,
     loading: false,
