@@ -1,6 +1,6 @@
 type Query {
     casting(id: ID!): Casting!
-    castings: [Casting!]
+    castings: [Casting!]!
 }
 
 type Mutation {

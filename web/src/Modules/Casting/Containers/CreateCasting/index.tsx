@@ -1,17 +1,17 @@
 import * as React from 'react'
-
 import { connect } from 'react-redux'
+
 import { CreateCastingForm } from '../../Components/CreateCastingForm'
-import { createCastingRequest } from '../../actions'
+import { createCastingAsync } from '../../actions'
 
 type Props = typeof mapDispatchToProps
 
-export const CreateCastingContainerPure: React.FC<Props> = ({
-    createCastingRequest
-}) => <CreateCastingForm createCasting={createCastingRequest} />
+export const CreateCastingContainerPure: React.FC<Props> = props => (
+    <CreateCastingForm {...props} />
+)
 
 const mapDispatchToProps = {
-    createCastingRequest
+    createCasting: createCastingAsync.request
 }
 
 export const CreateCastingContainer = connect(

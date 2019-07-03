@@ -1,4 +1,4 @@
-import { createAction } from 'typesafe-actions'
+import { createAsyncAction } from 'typesafe-actions'
 import { ApolloQueryResult } from 'apollo-boost'
 
 import {
@@ -7,26 +7,16 @@ import {
     CastingQuery_casting
 } from 'GraphqlTypes'
 
-export const GET_CASTINGS_REQUESTED = 'GET_CASTINGS_REQUESTED'
-export const getCastingsRequest = createAction(
-    GET_CASTINGS_REQUESTED,
-    action => action
-)
+export const getCastingsAsync = createAsyncAction(
+    'GET_CASTINGS_REQUEST',
+    'GET_CASTINGS_SUCCEED',
+    'GET_CASTINGS_FAILURE',
+    'GET_CASTINGS_CANCEL'
+)<undefined, ApolloQueryResult<CastingsQuery>, Error, string>()
 
-export const GET_CASTINGS_SUCCEED = 'GET_CASTINGS_SUCCEED'
-export const getCastingsSucceed = createAction(
-    GET_CASTINGS_SUCCEED,
-    action => (payload: ApolloQueryResult<CastingsQuery>) => action(payload)
-)
-
-export const CREATE_CASTING_REQUEST = 'CREATE_CASTING_REQUEST'
-export const createCastingRequest = createAction(
-    CREATE_CASTING_REQUEST,
-    action => (payload: CreateCastingMutationVariables) => action(payload)
-)
-
-export const CREATE_CASTING_SUCCEED = 'CREATE_CASTING_SUCCEED'
-export const createCastingSucceed = createAction(
-    CREATE_CASTING_SUCCEED,
-    action => (payload: CastingQuery_casting) => action(payload)
-)
+export const createCastingAsync = createAsyncAction(
+    'CREATE_CASTING_REQUEST',
+    'CREATE_CASTING_SUCCEED',
+    'CREATE_CASTING_FAILURE',
+    'CREATE_CASTING_CANCEL'
+)<CreateCastingMutationVariables, CastingQuery_casting, Error, string>()

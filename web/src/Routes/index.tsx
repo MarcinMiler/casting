@@ -6,7 +6,7 @@ import { Navbar } from '../Components'
 
 export const Routes = () => (
     <BrowserRouter>
-        <Navbar />
+        {/* <Navbar /> */}
         <Switch>
             {routes.map(route => (
                 <Route
