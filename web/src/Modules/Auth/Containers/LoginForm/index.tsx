@@ -4,11 +4,16 @@ import { LoginForm } from 'Modules/Auth/Components/LoginForm'
 
 import { loginRequest } from '../../actions'
 
-type Props = typeof mapDispatchToProps
+type StateProps = typeof mapDispatchToProps
 
-export const LoginFormContainerPure: React.FC<Props> = ({ loginRequest }) => (
-    <LoginForm login={loginRequest} />
-)
+interface Props extends StateProps {
+    switchForm: () => void
+}
+
+export const LoginFormContainerPure: React.FC<Props> = ({
+    loginRequest,
+    switchForm
+}) => <LoginForm login={loginRequest} switchForm={switchForm} />
 
 const mapDispatchToProps = {
     loginRequest

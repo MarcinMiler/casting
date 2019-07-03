@@ -5,7 +5,7 @@ export const Container = styled.div`
     height: 100vh;
     display: flex;
 `
-export const PanelLogin = styled.div`
+export const SidePanel = styled.div`
     width: 550px;
     height: 100%;
     padding: 50px;

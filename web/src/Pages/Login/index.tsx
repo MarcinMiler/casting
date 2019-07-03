@@ -1,13 +1,13 @@
 import * as React from 'react'
 
-import { LoginFormContainer } from 'Modules/Auth/Containers/LoginForm'
-import { Container, PanelLogin, VideoPanel } from './style'
+import { SwitchForm } from './SwitchForm'
+import { Container, SidePanel, VideoPanel } from './style'
 
 const LoginPage: React.FC = () => (
     <Container>
-        <PanelLogin>
-            <LoginFormContainer />
-        </PanelLogin>
+        <SidePanel>
+            <SwitchForm />
+        </SidePanel>
 
         <VideoPanel />
     </Container>

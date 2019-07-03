@@ -1,13 +1,21 @@
 import { GraphqlService } from 'Common/Services/graphqlService'
 import {
     LoginMutation as LoginMutationType,
-    LoginMutationVariables
+    LoginMutationVariables,
+    RegisterMutation as RegisterMutationType,
+    RegisterMutationVariables
 } from 'GraphqlTypes'
-import { LoginMutation } from 'GraphqlQueries'
+import { LoginMutation, RegisterMutation } from 'GraphqlQueries'
 
 interface LoginResponse {
     data: {
         login: string
+    }
+}
+
+interface RegisterResponse {
+    data: {
+        register: any
     }
 }
 
@@ -19,5 +27,12 @@ export class AuthService {
             LoginMutationType,
             LoginMutationVariables
         >(LoginMutation, variables)
+    }
+
+    register(variables: RegisterMutationVariables): Promise<RegisterResponse> {
+        return this.graphqlService.mutation<
+            RegisterMutationType,
+            RegisterMutationVariables
+        >(RegisterMutation, variables)
     }
 }

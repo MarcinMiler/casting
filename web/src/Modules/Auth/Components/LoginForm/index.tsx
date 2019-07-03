@@ -14,9 +14,10 @@ import {
 
 interface Props {
     login: (variables: LoginMutationVariables) => void
+    switchForm: () => void
 }
 
-export const LoginForm: React.FC<Props> = ({ login }) => (
+export const LoginForm: React.FC<Props> = ({ login, switchForm }) => (
     <Formik
         initialValues={LoginInitialState}
         validationSchema={LoginSchema}
@@ -33,7 +34,7 @@ export const LoginForm: React.FC<Props> = ({ login }) => (
                 name="email"
                 label="Email"
                 type="text"
-                noBottomBorder
+                noBorderBottom
                 component={Input}
             />
             <Field
@@ -46,7 +47,7 @@ export const LoginForm: React.FC<Props> = ({ login }) => (
             <ButtonsWrapper>
                 <LoginButton type="submit">Login</LoginButton>
 
-                <SignUpButton>Sign Up</SignUpButton>
+                <SignUpButton onClick={switchForm}>Sign Up</SignUpButton>
             </ButtonsWrapper>
         </Form>
     </Formik>

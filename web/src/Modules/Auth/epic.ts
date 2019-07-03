@@ -7,13 +7,21 @@ import { AuthService } from './service'
 import * as actions from './actions'
 
 export const authEpicFactory = (authService: AuthService): Epic => {
-    const authEpic: Epic = action$ =>
+    const loginEpic: Epic = action$ =>
         action$.pipe(
             filter(isOfType(actions.LOGIN_REQUEST)),
             pluck('payload'),
             switchMap(variables => authService.login(variables)),
-            map(data => actions.loginSucceed(data.data.login))
+            map(res => actions.loginSucceed(res.data.login))
         )
 
-    return combineEpics(authEpic)
+    const registerEpic: Epic = action$ =>
+        action$.pipe(
+            filter(isOfType(actions.REGISTER_REQUEST)),
+            pluck('payload'),
+            switchMap(variables => authService.register(variables)),
+            map(res => actions.registerSucceed(res.data.register))
+        )
+
+    return combineEpics(loginEpic, registerEpic)
 }
