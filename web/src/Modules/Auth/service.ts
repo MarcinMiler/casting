@@ -35,4 +35,8 @@ export class AuthService {
             RegisterMutationVariables
         >(RegisterMutation, variables)
     }
+
+    saveToken(token: string) {
+        localStorage.setItem('token', token)
+    }
 }

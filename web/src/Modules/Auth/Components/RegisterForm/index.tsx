@@ -21,7 +21,11 @@ export const RegisterForm: React.FC<Props> = ({ register, switchForm }) => (
     <Formik
         initialValues={RegisterInitialState}
         validationSchema={RegisterSchema}
-        onSubmit={register}
+        onSubmit={(values, { resetForm }) => {
+            register(values)
+            resetForm()
+            switchForm()
+        }}
     >
         <Form>
             <Title>Enter the top models world</Title>
