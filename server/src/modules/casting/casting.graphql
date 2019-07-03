@@ -1,6 +1,6 @@
 type Query {
     casting(id: ID!): Casting!
-    castings: [Casting!]
+    castings: [Casting!]!
 }
 
 type Mutation {
@@ -10,18 +10,24 @@ type Mutation {
 }
 
 input CastingInput {
+    companyId: ID!
     title: String!
     description: String!
     city: String!
+    lat: Float!
+    lng: Float!
     startDate: String!
     duration: String!
 }
 
 type Casting {
     id: Int!
+    companyId: ID!
     title: String!
     description: String!
     city: String!
+    lat: Float!
+    lng: Float!
     startDate: String!
     duration: String!
 }

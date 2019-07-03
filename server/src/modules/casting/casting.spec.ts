@@ -1,5 +1,6 @@
 import * as TypeMoq from 'typemoq'
 import { Repository } from 'typeorm'
+
 import { Casting } from './casting.entity'
 import { CastingService } from './casting.service'
 import { CastingDto } from './dto/casting.dto'
@@ -9,23 +10,28 @@ describe('Casting module', () => {
     let castingService: CastingService
 
     const mockCastingDto: CastingDto = {
+        companyId: 1,
         title: 'title',
         description: 'descrption',
         city: 'city',
+        lat: 1,
+        lng: 1,
         startDate: '11-07-2019',
         duration: '12h'
     }
 
-    const mockCasting: Casting = {
-        id: 1,
-        title: 'title',
-        description: 'descrption',
-        city: 'city',
-        startDate: '11-07-2019',
-        duration: '12h'
+    const mockCasting = {
+        ...mockCastingDto,
+        companyId: 1,
+        company: {
+            id: 1,
+            name: 'name',
+            logo: 'logo',
+            description: 'desc',
+            userId: 1,
+            castings: []
+        }
     }
-
-    const mockCastings = [mockCasting, mockCasting]
 
     beforeEach(() => {
         mockCastingRepo = TypeMoq.Mock.ofType<Repository<Casting>>()

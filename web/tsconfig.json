@@ -16,5 +16,6 @@
         "isolatedModules": true,
         "baseUrl": "src"
     },
-    "include": ["src"]
+    "include": ["src"],
+    "exclude": ["src/GraphqlTypes/globalTypes.ts"]
 }
