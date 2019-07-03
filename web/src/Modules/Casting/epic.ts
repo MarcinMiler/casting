@@ -1,6 +1,6 @@
-import { combineEpics } from 'redux-observable'
 import { filter, map, pluck, switchMap } from 'rxjs/operators'
-import { isOfType } from 'typesafe-actions'
+import { combineEpics } from 'redux-observable'
+import { isActionOf } from 'typesafe-actions'
 
 import { Epic } from 'Config/rootEpic'
 import { CastingService } from './service'
@@ -9,18 +9,20 @@ import * as actions from './actions'
 export const castingEpicFactory = (castingService: CastingService): Epic => {
     const fetchCastingsEpic: Epic = action$ =>
         action$.pipe(
-            filter(isOfType(actions.GET_CASTINGS_REQUESTED)),
+            filter(isActionOf(actions.getCastingsAsync.request)),
             pluck('payload'),
             switchMap(() => castingService.getCastings()),
-            map(data => actions.getCastingsSucceed(data))
+            map(actions.getCastingsAsync.success)
         )
 
     const createCastingEpic: Epic = action$ =>
         action$.pipe(
-            filter(isOfType(actions.CREATE_CASTING_REQUEST)),
+            filter(isActionOf(actions.createCastingAsync.request)),
             pluck('payload'),
             switchMap(variables => castingService.createCasting(variables)),
-            map(res => actions.createCastingSucceed(res.data.createCasting))
+            map(res =>
+                actions.createCastingAsync.success(res.data.createCasting)
+            )
         )
 
     return combineEpics(fetchCastingsEpic, createCastingEpic)

@@ -15,13 +15,13 @@ export const defaultCastingState: CastingState = {
 export const castingsReducer = createReducer<CastingState, AppAction>(
     defaultCastingState
 )
-    .handleAction(actions.GET_CASTINGS_SUCCEED, (state, action) => ({
+    .handleAction(actions.getCastingsAsync.success, (state, action) => ({
         ...state,
         castings: action.payload.data.castings
             ? action.payload.data.castings
             : []
     }))
-    .handleAction(actions.CREATE_CASTING_SUCCEED, (state, action) => ({
+    .handleAction(actions.createCastingAsync.success, (state, action) => ({
         ...state,
         castings: [...state.castings, action.payload]
     }))

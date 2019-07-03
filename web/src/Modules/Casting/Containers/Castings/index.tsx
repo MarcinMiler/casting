@@ -5,7 +5,7 @@ import { CastingsList } from 'Modules/Casting/Components/CastingsList'
 import { Casting } from 'Modules/Casting/models'
 import { getCastings } from 'Modules/Casting/selectors'
 import { AppState } from 'Config/appState'
-import { getCastingsRequest } from '../../actions'
+import { getCastingsAsync } from '../../actions'
 
 interface CastingStateProps {
     castings: Casting[]
@@ -15,11 +15,11 @@ type CastingsContainerProps = CastingStateProps & typeof mapDispatchToProps
 
 export const CastingsContainerPure: React.FC<CastingsContainerProps> = ({
     castings,
-    getCastingsRequest
+    getCastings
 }) => {
     React.useEffect(() => {
-        getCastingsRequest()
-    }, [getCastingsRequest])
+        getCastings()
+    }, [getCastings])
 
     return <CastingsList castings={castings} />
 }
@@ -29,7 +29,7 @@ const mapStateToProps = (state: AppState) => ({
 })
 
 const mapDispatchToProps = {
-    getCastingsRequest
+    getCastings: getCastingsAsync.request
 }
 
 export const CastingsContainer = connect(

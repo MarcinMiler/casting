@@ -13,7 +13,7 @@ const defaultAuthState = {
 
 export const authReducer = createReducer<AuthState, AppAction>(
     defaultAuthState
-).handleAction(actions.LOGIN_SUCCEED, (state, action) => ({
+).handleAction(actions.loginAsync.success, (state, action) => ({
     ...state,
     token: action.payload
 }))

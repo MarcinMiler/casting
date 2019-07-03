@@ -1,28 +1,18 @@
-import { createAction } from 'typesafe-actions'
+import { createAsyncAction } from 'typesafe-actions'
 
 import { LoginMutationVariables } from 'GraphqlTypes/LoginMutation'
 import { RegisterMutationVariables } from 'GraphqlTypes/RegisterMutation'
 
-export const LOGIN_REQUEST = 'LOGIN_REQUEST'
-export const loginRequest = createAction(
-    LOGIN_REQUEST,
-    action => (payload: LoginMutationVariables) => action(payload)
-)
+export const loginAsync = createAsyncAction(
+    'LOGIN_REQUEST',
+    'LOGIN_SUCCEED',
+    'LOGIN_FAILURE',
+    'LOGIN_CANCEL'
+)<LoginMutationVariables, string, Error, string>()
 
-export const LOGIN_SUCCEED = 'LOGIN_SUCCEED'
-export const loginSucceed = createAction(
-    LOGIN_SUCCEED,
-    action => (payload: string) => action(payload)
-)
-
-export const REGISTER_REQUEST = 'REGISTER_REQUEST'
-export const registerRequest = createAction(
-    REGISTER_REQUEST,
-    action => (payload: RegisterMutationVariables) => action(payload)
-)
-
-export const REGISTER_SUCCEED = 'REGISTER_SUCCEED'
-export const registerSucceed = createAction(
-    REGISTER_SUCCEED,
-    action => (payload: boolean) => action(payload)
-)
+export const registerAsync = createAsyncAction(
+    'REGISTER_REQUEST',
+    'REGISTER_SUCCEED',
+    'REGISTER_FAILURE',
+    'REGISTER_CANCEL'
+)<RegisterMutationVariables, boolean, Error, string>()
