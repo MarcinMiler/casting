@@ -24,5 +24,5 @@ export const registerRequest = createAction(
 export const REGISTER_SUCCEED = 'REGISTER_SUCCEED'
 export const registerSucceed = createAction(
     REGISTER_SUCCEED,
-    action => (payload: any) => action(payload)
+    action => (payload: boolean) => action(payload)
 )

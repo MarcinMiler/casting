@@ -15,7 +15,7 @@ interface LoginResponse {
 
 interface RegisterResponse {
     data: {
-        register: any
+        register: boolean
     }
 }
 
