@@ -1,9 +1,11 @@
-import { filter, pluck, map, exhaustMap, tap } from 'rxjs/operators'
+import { filter, pluck, map, exhaustMap, tap, mergeMap } from 'rxjs/operators'
 import { combineEpics } from 'redux-observable'
 import { isActionOf } from 'typesafe-actions'
+import { History } from 'history'
 
 import { Epic } from 'Config/rootEpic'
-import { History } from 'history'
+import { showNotification } from 'Modules/Notification/actions'
+import { registerNotificationSucceed } from 'Modules/Notification/factory'
 import { AuthService } from './service'
 import * as actions from './actions'
 
@@ -16,10 +18,8 @@ export const authEpicFactory = (
             filter(isActionOf(actions.loginAsync.request)),
             pluck('payload'),
             exhaustMap(variables => authService.login(variables)),
-            map(res => {
-                authService.saveToken(res.data.login)
-                return actions.loginAsync.success(res.data.login)
-            }),
+            tap(res => authService.saveToken(res.data.login)),
+            map(res => actions.loginAsync.success(res.data.login)),
             tap(() => history.push('/castings'))
         )
 
@@ -28,7 +28,10 @@ export const authEpicFactory = (
             filter(isActionOf(actions.registerAsync.request)),
             pluck('payload'),
             exhaustMap(variables => authService.register(variables)),
-            map(res => actions.registerAsync.success(res.data.register))
+            mergeMap(res => [
+                actions.registerAsync.success(res.data.register),
+                showNotification(registerNotificationSucceed())
+            ])
         )
 
     return combineEpics(loginEpic, registerEpic)
