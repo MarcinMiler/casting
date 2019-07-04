@@ -1,9 +1,9 @@
 import { filter, pluck, map, exhaustMap, tap, mergeMap } from 'rxjs/operators'
 import { combineEpics } from 'redux-observable'
 import { isActionOf } from 'typesafe-actions'
-import { History } from 'history'
 
 import { Epic } from 'Config/rootEpic'
+import { RoutingService } from 'Common/Services/routingService'
 import { showNotification } from 'Modules/Notification/actions'
 import { registerNotificationSucceed } from 'Modules/Notification/factory'
 import { AuthService } from './service'
@@ -11,7 +11,7 @@ import * as actions from './actions'
 
 export const authEpicFactory = (
     authService: AuthService,
-    history: History
+    routingService: RoutingService
 ): Epic => {
     const loginEpic: Epic = action$ =>
         action$.pipe(
@@ -20,7 +20,7 @@ export const authEpicFactory = (
             exhaustMap(variables => authService.login(variables)),
             tap(res => authService.saveToken(res.data.login)),
             map(res => actions.loginAsync.success(res.data.login)),
-            tap(() => history.push('/castings'))
+            tap(() => routingService.push('/castings'))
         )
 
     const registerEpic: Epic = action$ =>
