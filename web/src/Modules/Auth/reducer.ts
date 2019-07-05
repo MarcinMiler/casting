@@ -7,7 +7,7 @@ interface AuthState {
     token: string
 }
 
-const defaultAuthState = {
+export const defaultAuthState = {
     token: ''
 }
 
