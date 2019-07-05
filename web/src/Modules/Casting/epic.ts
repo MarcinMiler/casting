@@ -18,7 +18,7 @@ export const castingEpicFactory = (
             filter(isActionOf(actions.getCastingsAsync.request)),
             pluck('payload'),
             switchMap(() => castingService.getCastings()),
-            map(actions.getCastingsAsync.success)
+            map(res => actions.getCastingsAsync.success(res))
         )
 
     const createCastingEpic: Epic = action$ =>
@@ -27,8 +27,8 @@ export const castingEpicFactory = (
             pluck('payload'),
             switchMap(variables => castingService.createCasting(variables)),
             mergeMap(res => [
-                showNotification(createCastingNotificationSucceed()),
-                actions.createCastingAsync.success(res.data.createCasting)
+                actions.createCastingAsync.success(res.data.createCasting),
+                showNotification(createCastingNotificationSucceed())
             ]),
             tap(res => routingService.push(`/casting/${res.payload.id}`))
         )
