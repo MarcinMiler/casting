@@ -18,7 +18,7 @@ export const routes = [
         component: React.lazy(() => import('Pages/CreateCasting'))
     },
     {
-        path: '/login',
+        path: '/',
         component: React.lazy(() => import('Pages/Login'))
     }
 ]
