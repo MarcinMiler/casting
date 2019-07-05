@@ -3,14 +3,10 @@ import { ApolloCastingsMock, CastingMock } from './mocks'
 import * as actions from '../actions'
 
 describe('Casting Reducer', () => {
-    it('should create default state', () => {
-        expect(castingsReducer(undefined, {})).toEqual(defaultCastingState)
-    })
-
     it('should save fetched castings', () => {
         const state = castingsReducer(
             defaultCastingState,
-            actions.getCastingsSucceed(ApolloCastingsMock)
+            actions.getCastingsAsync.success(ApolloCastingsMock)
         )
 
         expect(state).toEqual({ castings: [CastingMock] })
@@ -19,7 +15,7 @@ describe('Casting Reducer', () => {
     it('should save new casting to the store', () => {
         const state = castingsReducer(
             defaultCastingState,
-            actions.createCastingSucceed(CastingMock)
+            actions.createCastingAsync.success(CastingMock)
         )
 
         expect(state).toEqual({

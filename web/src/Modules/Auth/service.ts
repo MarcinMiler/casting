@@ -7,13 +7,13 @@ import {
 } from 'GraphqlTypes'
 import { LoginMutation, RegisterMutation } from 'GraphqlQueries'
 
-interface LoginResponse {
+export interface LoginResponse {
     data: {
         login: string
     }
 }
 
-interface RegisterResponse {
+export interface RegisterResponse {
     data: {
         register: boolean
     }

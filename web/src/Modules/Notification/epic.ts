@@ -14,7 +14,7 @@ export const notificationEpicFactory = (): Epic => {
         return action$.pipe(
             filter(isOfType(actions.SHOW_NOTIFICATION)),
             takeUntil(closeNotification$),
-            delay(3000),
+            delay(6000),
             pluck('payload', 'id'),
             map(actions.closeNotification)
         )
