@@ -16,6 +16,18 @@
   dependencies:
     any-observable "^0.3.0"
 
+"@types/nanoid@^2.0.0":
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/@types/nanoid/-/nanoid-2.0.0.tgz#b59002c475e6dfcc26e67ba563ff61b512e5ebf8"
+  integrity sha512-NtwPHfAyU3IDXdKAB2OMPpAauHBg9gUjpOYr3FAzI84D70nWdS8k5mryteLvT/s1ACeAFAkGg132/XJVN4qx/w==
+  dependencies:
+    "@types/node" "*"
+
+"@types/node@*":
+  version "12.0.12"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-12.0.12.tgz#cc791b402360db1eaf7176479072f91ee6c6c7ca"
+  integrity sha512-Uy0PN4R5vgBUXFoJrKryf5aTk3kJ8Rv3PdlHjl6UaX+Cqp1QE0yPQ68MPXGrZOfG7gZVNDIJZYyot0B9ubXUrQ==
+
 "@types/normalize-package-data@^2.4.0":
   version "2.4.0"
   resolved "https://registry.yarnpkg.com/@types/normalize-package-data/-/normalize-package-data-2.4.0.tgz#e486d0d97396d79beedd0a6e33f4534ff6b4973e"
@@ -1070,6 +1082,11 @@ ms@^2.1.1:
   version "2.1.2"
   resolved "https://registry.yarnpkg.com/ms/-/ms-2.1.2.tgz#d09d1f357b443f493382a8eb3ccd183872ae6009"
   integrity sha512-sGkPx+VjMtmA6MX27oA4FBFELFCZZ4S4XqeGOXCv68tT+jb3vk/RyaKWP0PTKyWtmLSM0b+adUTEvbs1PEaH2w==
+
+nanoid@^2.0.3:
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/nanoid/-/nanoid-2.0.3.tgz#dde999e173bc9d7bd2ee2746b89909ade98e075e"
+  integrity sha512-NbaoqdhIYmY6FXDRB4eYtDVC9Z9eCbn8TyaiC16LNKtpPv/aqa0tOPD8y6gNE4yUNnaZ7LLhYtXOev/6+cBtfw==
 
 nanomatch@^1.2.9:
   version "1.2.13"
