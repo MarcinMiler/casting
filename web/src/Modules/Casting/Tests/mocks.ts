@@ -1,9 +1,15 @@
 import { ApolloQueryResult } from 'apollo-boost'
 
-import { CastingsQuery } from 'GraphqlTypes'
+import {
+    CastingsQuery,
+    CastingQuery,
+    CreateCastingMutationVariables,
+    CastingQuery_casting
+} from 'GraphqlTypes'
+import { apolloMock } from 'Common/Mocks/apolloMock'
 import { CreateCastingResponse } from '../service'
 
-export const CastingMock = {
+export const CastingMock: CastingQuery_casting = {
     id: 1,
     companyId: '1',
     title: 'title',
@@ -15,16 +21,15 @@ export const CastingMock = {
     duration: '2'
 }
 
-export const ApolloCastingsMock: ApolloQueryResult<CastingsQuery> = {
-    data: {
-        castings: [CastingMock]
-    },
-    networkStatus: 1,
-    loading: false,
-    stale: false
-}
+export const ApolloCastingsMock = apolloMock<CastingsQuery>({
+    castings: [CastingMock]
+})
 
-export const CreateCastingVariables = {
+export const ApolloCastingMock = apolloMock<CastingQuery>({
+    casting: CastingMock
+})
+
+export const CreateCastingVariables: CreateCastingMutationVariables = {
     companyId: '1',
     title: 'title',
     description: 'description',

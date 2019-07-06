@@ -9,29 +9,41 @@ export interface CastingState {
     casting: {
         [key: string]: CastingQuery_casting
     }
+    isFetchingCastings: boolean
+    isFetchingCasting: boolean
 }
 
 export const defaultCastingState: CastingState = {
     castings: [],
-    casting: {}
+    casting: {},
+    isFetchingCastings: false,
+    isFetchingCasting: false
 }
 
 export const castingsReducer = createReducer<CastingState, AppAction>(
     defaultCastingState
 )
-    .handleAction(actions.getCastingsAsync.success, (state, action) => ({
+    .handleAction(actions.getCastingsAsync.request, state => ({
         ...state,
-        castings: action.payload.data.castings
-            ? action.payload.data.castings
-            : []
+        isFetchingCastings: true
     }))
-    .handleAction(actions.getCastingAsync.success, (state, action) => ({
+    .handleAction(actions.getCastingsAsync.success, (state, { payload }) => ({
         ...state,
+        isFetchingCastings: false,
+        castings: payload.data.castings ? payload.data.castings : []
+    }))
+    .handleAction(actions.getCastingAsync.request, state => ({
+        ...state,
+        isFetchingCasting: true
+    }))
+    .handleAction(actions.getCastingAsync.success, (state, { payload }) => ({
+        ...state,
+        isFetchingCasting: false,
         casting: {
-            [action.payload.data.casting.id]: action.payload.data.casting
+            [payload.data.casting.id]: payload.data.casting
         }
     }))
-    .handleAction(actions.createCastingAsync.success, (state, action) => ({
+    .handleAction(actions.createCastingAsync.success, (state, { payload }) => ({
         ...state,
-        castings: [...state.castings, action.payload]
+        castings: [...state.castings, payload]
     }))

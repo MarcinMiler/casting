@@ -1,48 +1,56 @@
 import * as React from 'react'
+import { compose } from 'redux'
 import { connect } from 'react-redux'
+import { withRouter, RouteComponentProps } from 'react-router-dom'
 
 import { CastingQuery_casting } from 'GraphqlTypes'
 import { AppState } from 'Config/appState'
-import { Casting } from 'Modules/Casting/Components/Casting'
-import { getCasting } from 'Modules/Casting/selectors'
+import { Casting } from '../../Components/Casting'
+import { getCasting } from '../../selectors'
 import { getCastingAsync } from '../../actions'
 
 interface PropsState {
     casting: CastingQuery_casting
+    isFetching: boolean
 }
 
-interface OwnProps {
-    id: string
-}
+type RouteProps = RouteComponentProps<{ id: string }>
 
-type Props = PropsState & OwnProps & typeof mapDispatchToProps
+type Props = PropsState & RouteProps & typeof mapDispatchToProps
 
 export const CastingContainerPure: React.FC<Props> = ({
     casting,
     getCasting,
-    id
+    match,
+    isFetching
 }) => {
+    const { id } = match.params
+
     React.useEffect(() => {
         getCasting({ id })
     }, [id])
 
-    if (!casting) {
+    if (isFetching) {
         return <p>loading</p>
     }
 
     return <Casting casting={casting} />
 }
 
-const mapStateToProps = (state: AppState, ownProps: OwnProps) => ({
-    casting: getCasting(state, ownProps.id),
-    id: ownProps.id
+const mapStateToProps = (state: AppState, { match }: RouteProps) => ({
+    casting: getCasting(state, match.params.id),
+    isFetching: state.castings.isFetchingCasting,
+    id: match.params.id
 })
 
 const mapDispatchToProps = {
     getCasting: getCastingAsync.request
 }
 
-export const CastingContainer = connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(CastingContainerPure)
+export const CastingContainer = compose(
+    withRouter,
+    connect(
+        mapStateToProps,
+        mapDispatchToProps
+    )
+)(CastingContainerPure) as React.ComponentType
