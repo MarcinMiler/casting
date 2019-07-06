@@ -1,26 +1,48 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
-import { RouteComponentProps, withRouter } from 'react-router-dom'
 
+import { CastingQuery_casting } from 'GraphqlTypes'
 import { AppState } from 'Config/appState'
 import { Casting } from 'Modules/Casting/Components/Casting'
-import { Casting as CastingType } from 'Modules/Casting/models'
-import { getCastings } from 'Modules/Casting/selectors'
+import { getCasting } from 'Modules/Casting/selectors'
+import { getCastingAsync } from '../../actions'
 
 interface PropsState {
-    casting: CastingType
+    casting: CastingQuery_casting
 }
 
-type Props = PropsState & RouteComponentProps<{ id: string }>
+interface OwnProps {
+    id: string
+}
 
-export const CastingContainerPure: React.FC<Props> = ({ casting }) => (
-    <Casting casting={casting} />
-)
+type Props = PropsState & OwnProps & typeof mapDispatchToProps
 
-const mapStateToProps = (state: AppState) => ({
-    casting: getCastings(state)[1]
+export const CastingContainerPure: React.FC<Props> = ({
+    casting,
+    getCasting,
+    id
+}) => {
+    React.useEffect(() => {
+        getCasting({ id })
+    }, [id])
+
+    if (!casting) {
+        return <p>loading</p>
+    }
+
+    return <Casting casting={casting} />
+}
+
+const mapStateToProps = (state: AppState, ownProps: OwnProps) => ({
+    casting: getCasting(state, ownProps.id),
+    id: ownProps.id
 })
 
-export const CastingContainer = connect(mapStateToProps)(
-    withRouter(CastingContainerPure)
-)
+const mapDispatchToProps = {
+    getCasting: getCastingAsync.request
+}
+
+export const CastingContainer = connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(CastingContainerPure)

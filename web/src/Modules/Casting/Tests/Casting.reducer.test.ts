@@ -9,7 +9,10 @@ describe('Casting Reducer', () => {
             actions.getCastingsAsync.success(ApolloCastingsMock)
         )
 
-        expect(state).toEqual({ castings: [CastingMock] })
+        expect(state).toEqual({
+            ...defaultCastingState,
+            castings: [CastingMock]
+        })
     })
 
     it('should save new casting to the store', () => {
@@ -19,6 +22,7 @@ describe('Casting Reducer', () => {
         )
 
         expect(state).toEqual({
+            ...defaultCastingState,
             castings: [CastingMock]
         })
     })

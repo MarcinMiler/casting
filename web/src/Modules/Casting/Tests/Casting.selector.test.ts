@@ -1,8 +1,15 @@
-import { getCastings, getCastingsLatLng } from '../selectors'
+import { appStateMock } from 'Common/Mocks/appStateMock'
+import { getCastings, getCastingsLatLng, getCasting } from '../selectors'
 import { CastingMock } from './mocks'
 
 const appState = {
-    castings: { castings: [CastingMock] }
+    ...appStateMock,
+    castings: {
+        castings: [CastingMock],
+        casting: {
+            '1': CastingMock
+        }
+    }
 }
 
 describe('Casting selectors', () => {
@@ -14,5 +21,9 @@ describe('Casting selectors', () => {
         expect(getCastingsLatLng(appState)).toEqual([
             { lat: CastingMock.lat, lng: CastingMock.lng }
         ])
+    })
+
+    it('should extract casting', () => {
+        expect(getCasting(appState, '1')).toEqual(CastingMock)
     })
 })
