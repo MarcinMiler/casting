@@ -32,6 +32,13 @@ export const castingsReducer = createReducer<CastingState, AppAction>(
         isFetchingCastings: false,
         castings: payload.data.castings ? payload.data.castings : []
     }))
+    .handleAction(
+        actions.getMoreCastingsAsync.success,
+        (state, { payload }) => ({
+            ...state,
+            castings: [...state.castings, ...payload.data.castings]
+        })
+    )
     .handleAction(actions.getCastingAsync.request, state => ({
         ...state,
         isFetchingCasting: true

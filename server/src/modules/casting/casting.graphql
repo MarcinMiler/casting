@@ -1,6 +1,6 @@
 type Query {
     casting(id: ID!): Casting!
-    castings: [Casting!]!
+    castings(cursor: String): [Casting!]!
 }
 
 type Mutation {
@@ -30,4 +30,5 @@ type Casting {
     lng: Float!
     startDate: String!
     duration: String!
+    createdAt: String!
 }

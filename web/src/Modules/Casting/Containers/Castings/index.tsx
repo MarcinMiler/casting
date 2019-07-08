@@ -5,23 +5,24 @@ import { CastingsList } from 'Modules/Casting/Components/CastingsList'
 import { Casting } from 'Modules/Casting/models'
 import { getCastings } from 'Modules/Casting/selectors'
 import { AppState } from 'Config/appState'
-import { getCastingsAsync } from '../../actions'
+import { CastingsQuery_castings } from 'GraphqlTypes'
+import { getCastingsAsync, getMoreCastingsAsync } from '../../actions'
 
 interface CastingStateProps {
-    castings: Casting[]
+    castings: CastingsQuery_castings[]
 }
 
 type CastingsContainerProps = CastingStateProps & typeof mapDispatchToProps
 
 export const CastingsContainerPure: React.FC<CastingsContainerProps> = ({
-    castings,
-    getCastings
+    getCastings,
+    ...props
 }) => {
     React.useEffect(() => {
         getCastings()
     }, [getCastings])
 
-    return <CastingsList castings={castings} />
+    return <CastingsList {...props} />
 }
 
 const mapStateToProps = (state: AppState) => ({
@@ -29,7 +30,8 @@ const mapStateToProps = (state: AppState) => ({
 })
 
 const mapDispatchToProps = {
-    getCastings: getCastingsAsync.request
+    getCastings: getCastingsAsync.request,
+    getMoreCastings: getMoreCastingsAsync.request
 }
 
 export const CastingsContainer = connect(

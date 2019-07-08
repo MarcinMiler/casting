@@ -16,8 +16,13 @@ export interface CastingsQuery_castings {
     lng: number
     startDate: string
     duration: string
+    createdAt: string
 }
 
 export interface CastingsQuery {
-    castings: CastingsQuery_castings[] | null
+    castings: CastingsQuery_castings[]
+}
+
+export interface CastingsQueryVariables {
+    cursor?: string | null
 }

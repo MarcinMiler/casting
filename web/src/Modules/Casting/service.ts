@@ -10,7 +10,8 @@ import {
     CastingQuery as CastingQueryType,
     CreateCastingMutationVariables,
     CastingQuery_casting,
-    CastingQueryVariables
+    CastingQueryVariables,
+    CastingsQueryVariables
 } from 'GraphqlTypes'
 
 export interface CreateCastingResponse {
@@ -24,6 +25,13 @@ export class CastingService {
 
     getCastings() {
         return this.graphqlService.query<CastingsQueryType>(CastingsQuery)
+    }
+
+    getMoreCastings(variables: CastingsQueryVariables) {
+        return this.graphqlService.query<CastingsQueryType>(
+            CastingsQuery,
+            variables
+        )
     }
 
     getCasting(variables: CastingQueryVariables) {

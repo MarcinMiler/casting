@@ -1,4 +1,11 @@
-import { PrimaryGeneratedColumn, Column, Entity, ManyToOne } from 'typeorm'
+import {
+    PrimaryGeneratedColumn,
+    Column,
+    Entity,
+    ManyToOne,
+    CreateDateColumn,
+    UpdateDateColumn
+} from 'typeorm'
 
 import { Company } from '../company/company.entity'
 
@@ -28,8 +35,14 @@ export class Casting {
     @Column()
     duration: string
 
+    @CreateDateColumn({ type: 'time' })
+    createdAt: Date
+
+    @UpdateDateColumn({ type: 'time' })
+    updatedAt: Date
+
     @Column()
-    companyId: number
+    companyId: Date
 
     @ManyToOne(() => Company, company => company.castings)
     company: Company
