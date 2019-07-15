@@ -32,6 +32,7 @@ export const CreateCastingMutation = gql`
             lng
             startDate
             duration
+            createdAt
         }
     }
 `

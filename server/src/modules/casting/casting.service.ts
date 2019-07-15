@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
-import { Repository } from 'typeorm'
+import { Repository, FindManyOptions, LessThan } from 'typeorm'
 
 import { Casting } from './casting.entity'
 
@@ -17,8 +17,19 @@ export class CastingService {
         return this.castingRepo.findOne(id)
     }
 
-    findAll() {
-        return this.castingRepo.find()
+    findAll(cursor: string) {
+        const options: FindManyOptions<Casting> = {
+            order: { createdAt: 'DESC' },
+            take: 20
+        }
+
+        if (cursor) {
+            options.where = {
+                createdAt: LessThan(cursor)
+            }
+        }
+
+        return this.castingRepo.find(options)
     }
 
     async createCasting(casting: CastingDto) {

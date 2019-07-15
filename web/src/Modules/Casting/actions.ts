@@ -6,7 +6,8 @@ import {
     CreateCastingMutationVariables,
     CastingQuery_casting,
     CastingQuery,
-    CastingQueryVariables
+    CastingQueryVariables,
+    CastingsQueryVariables
 } from 'GraphqlTypes'
 
 export const getCastingsAsync = createAsyncAction(
@@ -15,6 +16,13 @@ export const getCastingsAsync = createAsyncAction(
     'GET_CASTINGS_FAILURE',
     'GET_CASTINGS_CANCEL'
 )<undefined, ApolloQueryResult<CastingsQuery>, Error, string>()
+
+export const getMoreCastingsAsync = createAsyncAction(
+    'GET_MORE_CASTINGS_REQUEST',
+    'GET_MORE_CASTINGS_SUCCEED',
+    'GET_MORE_CASTINGS_FAILURE',
+    'GET_MORE_CASTINGS_CANCEL'
+)<CastingsQueryVariables, ApolloQueryResult<CastingsQuery>, Error, string>()
 
 export const getCastingAsync = createAsyncAction(
     'GET_CASTING_REQUEST',

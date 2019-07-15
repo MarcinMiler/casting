@@ -3,15 +3,13 @@ import * as React from 'react'
 import { Navbar } from 'Components'
 import { CastingsContainer } from 'Modules/Casting/Containers/Castings'
 import { MapCastingsContainer } from 'Modules/Casting/Containers/Map'
-import { Container, CastingsWrapper, MapWrapper } from './style'
+import { Container, MapWrapper } from './style'
 
 const CastingsPage: React.FC = () => (
     <>
         <Navbar />
         <Container>
-            <CastingsWrapper>
-                <CastingsContainer />
-            </CastingsWrapper>
+            <CastingsContainer />
             <MapWrapper>
                 <MapCastingsContainer />
             </MapWrapper>

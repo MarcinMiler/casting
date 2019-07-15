@@ -18,7 +18,8 @@ export const CastingMock: CastingQuery_casting = {
     lat: 1,
     lng: 1,
     startDate: '12.12.1212',
-    duration: '2'
+    duration: '2',
+    createdAt: '12121212'
 }
 
 export const ApolloCastingsMock = apolloMock<CastingsQuery>({

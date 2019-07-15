@@ -12,6 +12,7 @@ export const CastingQuery = gql`
             lng
             startDate
             duration
+            createdAt
         }
     }
 `

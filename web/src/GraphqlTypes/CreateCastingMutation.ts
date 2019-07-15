@@ -16,6 +16,7 @@ export interface CreateCastingMutation_createCasting {
     lng: number
     startDate: string
     duration: string
+    createdAt: string
 }
 
 export interface CreateCastingMutation {

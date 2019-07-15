@@ -21,6 +21,14 @@ export const castingEpicFactory = (
             map(res => actions.getCastingsAsync.success(res))
         )
 
+    const fetchMoreCastingsEpic: Epic = action$ =>
+        action$.pipe(
+            filter(isActionOf(actions.getMoreCastingsAsync.request)),
+            pluck('payload'),
+            switchMap(variables => castingService.getMoreCastings(variables)),
+            map(res => actions.getMoreCastingsAsync.success(res))
+        )
+
     const fetchCastingEpic: Epic = action$ =>
         action$.pipe(
             filter(isActionOf(actions.getCastingAsync.request)),
@@ -43,5 +51,10 @@ export const castingEpicFactory = (
             ])
         )
 
-    return combineEpics(fetchCastingsEpic, fetchCastingEpic, createCastingEpic)
+    return combineEpics(
+        fetchCastingsEpic,
+        fetchMoreCastingsEpic,
+        fetchCastingEpic,
+        createCastingEpic
+    )
 }

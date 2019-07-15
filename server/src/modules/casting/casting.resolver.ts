@@ -13,8 +13,8 @@ export class CastingResolver {
     }
 
     @Query('castings')
-    findAll() {
-        return this.castingService.findAll()
+    findAll(@Args('cursor') cursor: string) {
+        return this.castingService.findAll(cursor)
     }
 
     @Mutation('createCasting')

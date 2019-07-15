@@ -16,6 +16,7 @@ export interface CastingQuery_casting {
     lng: number
     startDate: string
     duration: string
+    createdAt: string
 }
 
 export interface CastingQuery {
