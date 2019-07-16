@@ -17,7 +17,6 @@ input CompanyInput {
 
 type Company {
     id: ID!
-    userId: ID!
     name: String!
     logo: String!
     description: String!

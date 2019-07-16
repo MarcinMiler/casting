@@ -23,7 +23,8 @@ export class CompanyResolver {
 
     @Mutation('createCompany')
     @UseGuards(new GqlAuthGuard())
-    createCasting(@Usr() user: User, @Args('input') company: CompanyDto) {
+    createCompany(@Usr() user: User, @Args('input') company: CompanyDto) {
+        console.log('callllled')
         return this.companyService.createCompany(user.id, company)
     }
 
