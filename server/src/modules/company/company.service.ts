@@ -28,7 +28,7 @@ export class CompanyService {
         })
 
         await this.companyRepo.save(newCompany)
-
+        console.log(newCompany)
         return newCompany
     }
 

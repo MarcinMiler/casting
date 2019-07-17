@@ -13,5 +13,10 @@ export const client = new ApolloClient({
                 authorization: token ? `Bearer ${token}` : ''
             }
         })
+    },
+    onError: ({ graphQLErrors, networkError }) => {
+        if (graphQLErrors) {
+            console.log(graphQLErrors, networkError, 'graphql error')
+        }
     }
 })

@@ -11,6 +11,7 @@ export const Container = styled.div`
     border-radius: 4px;
     background-color: white;
     box-shadow: 0 5px 15px lightgray;
+    z-index: 9999;
 `
 export const NotificationTitle = styled.h3`
     font-size: ${fonts.medium};
