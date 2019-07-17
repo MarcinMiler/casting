@@ -43,8 +43,6 @@ export const CreateCastingVariables: CreateCastingMutationVariables = {
 
 export const ApolloCreateCastingMock: CreateCastingResponse = {
     data: {
-        createCasting: {
-            ...CastingMock
-        }
+        createCasting: CastingMock
     }
 }
