@@ -1,8 +1,8 @@
 import gql from 'graphql-tag'
 
 export const CastingsQuery = gql`
-    query CastingsQuery {
-        castings {
+    query CastingsQuery($cursor: String) {
+        castings(cursor: $cursor) {
             id
             companyId
             title
@@ -12,6 +12,7 @@ export const CastingsQuery = gql`
             lng
             startDate
             duration
+            createdAt
         }
     }
 `

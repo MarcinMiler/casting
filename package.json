@@ -6,7 +6,6 @@
     "author": "Marcin Miler <marcin4951@gmail.com>",
     "license": "MIT",
     "devDependencies": {
-        "@types/nanoid": "^2.0.0",
         "husky": "^2.4.1",
         "lint-staged": "^8.2.0",
         "prettier": "^1.18.2"
@@ -21,8 +20,5 @@
             "prettier --config .prettierrc --write",
             "git add"
         ]
-    },
-    "dependencies": {
-        "nanoid": "^2.0.3"
     }
 }

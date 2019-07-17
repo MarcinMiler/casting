@@ -3,6 +3,7 @@ import { MdBusiness, MdLocationOn } from 'react-icons/md'
 
 export const Container = styled.div`
     width: 100%;
+    height: 130px;
     padding: 20px;
     margin-bottom: 30px;
     display: flex;

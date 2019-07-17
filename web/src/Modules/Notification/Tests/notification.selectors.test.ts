@@ -1,17 +1,18 @@
-import { AppState } from 'Config/appState'
+import { appStateMock } from 'Common/Mocks/appStateMock'
 import { getNotifications } from '../selectors'
+import { registerNotificationSucceed } from '../factory'
+
+const registerNotification = registerNotificationSucceed()
 
 describe('Notification selectors', () => {
     it('should return notifications', () => {
-        const state: AppState = {
-            castings: {
-                castings: []
-            },
+        const appState = {
+            ...appStateMock,
             notifications: {
-                notifications: []
+                notifications: [registerNotification]
             }
         }
 
-        expect(getNotifications(state)).toEqual([])
+        expect(getNotifications(appState)).toEqual([registerNotification])
     })
 })

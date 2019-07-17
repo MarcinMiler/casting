@@ -3,7 +3,7 @@ import { createReducer } from 'typesafe-actions'
 import { AppAction } from 'Config/rootAction'
 import * as actions from './actions'
 
-interface AuthState {
+export interface AuthState {
     token: string
 }
 

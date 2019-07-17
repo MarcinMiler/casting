@@ -12,6 +12,7 @@ module.exports = {
         'react/prop-types': 0,
         'no-use-before-define': 0,
         'react-hooks/exhaustive-deps': 0,
-        'no-shadow': 0
+        'no-shadow': 0,
+        camelcase: 0
     }
 }

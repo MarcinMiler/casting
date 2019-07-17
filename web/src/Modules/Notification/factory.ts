@@ -11,11 +11,13 @@ const registerInfo = {
     title: 'Successfully registered',
     description: 'Now you can login'
 }
+
 export const registerNotificationSucceed = () =>
     createNotification({
         ...registerInfo,
         type: NotificationTypes.SUCCEED
     })
+
 export const registerNotificationFailed = () =>
     createNotification({
         ...registerInfo,
@@ -30,5 +32,16 @@ const castingInfo = {
 export const createCastingNotificationSucceed = () =>
     createNotification({
         ...castingInfo,
+        type: NotificationTypes.SUCCEED
+    })
+
+export const companyInfo = {
+    title: 'Successfully created company',
+    description: 'Now you can checkout your company'
+}
+
+export const createCompanyNotificationSucceed = () =>
+    createNotification({
+        ...companyInfo,
         type: NotificationTypes.SUCCEED
     })

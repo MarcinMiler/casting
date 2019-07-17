@@ -1,14 +1,15 @@
 import * as React from 'react'
 
-import { StyledLink } from 'Components'
-import { Container } from './style'
+import { Container, Link } from './style'
 
 interface Props {}
 
 export const Navbar: React.FC<Props> = () => (
     <Container>
-        <StyledLink to="/create">Create Casting</StyledLink>
-        <StyledLink to="/castings">Castings</StyledLink>
-        <StyledLink to="/home">Home</StyledLink>
+        <Link to="/castings">New Faces</Link>
+        <Link to="/castings">Models</Link>
+        <Link to="/castings">Castings</Link>
+        <Link to="/castings">Manage</Link>
+        <Link to="/castings">My Profile</Link>
     </Container>
 )

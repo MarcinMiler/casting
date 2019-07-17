@@ -2,15 +2,13 @@ import * as React from 'react'
 import { Router, Switch, Route } from 'react-router-dom'
 
 import { history } from 'Config/history'
-import { NotificationContainer } from 'Modules/Notification/Containers/Notifications'
-import { NotificationsWrapper } from 'Components/NotificationsWrapper'
+import { Notifications } from 'Pages/Notifications'
 import { routes } from './routes'
 
 export const Routes = () => (
     <Router history={history}>
-        <NotificationsWrapper>
-            <NotificationContainer />
-        </NotificationsWrapper>
+        <Notifications />
+
         <Switch>
             {routes.map(route => (
                 <Route
