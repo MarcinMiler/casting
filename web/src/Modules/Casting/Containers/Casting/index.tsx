@@ -30,7 +30,7 @@ export const CastingContainerPure: React.FC<Props> = ({
         getCasting({ id })
     }, [id])
 
-    if (isFetching) {
+    if (isFetching || !casting) {
         return <p>loading</p>
     }
 

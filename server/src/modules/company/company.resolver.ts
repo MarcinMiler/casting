@@ -24,7 +24,6 @@ export class CompanyResolver {
     @Mutation('createCompany')
     @UseGuards(new GqlAuthGuard())
     createCompany(@Usr() user: User, @Args('input') company: CompanyDto) {
-        console.log('callllled')
         return this.companyService.createCompany(user.id, company)
     }
 

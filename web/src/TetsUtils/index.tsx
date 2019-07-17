@@ -1,5 +1,2 @@
-export * from './createClient'
-export * from './graphqlMock'
-export * from './MockProvider'
 export * from './renderWithProviders'
 export * from './Route'
