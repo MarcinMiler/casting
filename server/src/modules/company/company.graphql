@@ -1,6 +1,7 @@
 type Query {
     companies: [Company!]
     company(id: ID!): Company
+    myCompanies: [Company!]
 }
 
 type Mutation {
