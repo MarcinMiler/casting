@@ -1,6 +1,6 @@
 import { combineEpics } from 'redux-observable'
 import { isActionOf } from 'typesafe-actions'
-import { filter, pluck, switchMap, mergeMap, tap } from 'rxjs/operators'
+import { filter, pluck, switchMap, mergeMap, tap, map } from 'rxjs/operators'
 
 import { Epic } from 'Config/rootEpic'
 import { showNotification } from 'Modules/Notification/actions'
@@ -25,5 +25,13 @@ export const companyEpicFactory = (
             tap(() => routingService.push('/castings'))
         )
 
-    return combineEpics(createCompanyEpic)
+    const myCompaniesEpic: Epic = action$ =>
+        action$.pipe(
+            filter(isActionOf(actions.getMyCompaniesAsync.request)),
+            pluck('payload'),
+            switchMap(() => companyService.getMyCompanies()),
+            map(res => actions.getMyCompaniesAsync.success(res))
+        )
+
+    return combineEpics(myCompaniesEpic, createCompanyEpic)
 }

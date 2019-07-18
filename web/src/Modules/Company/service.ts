@@ -1,9 +1,10 @@
 import {
     CreateCompanyMutationVariables,
     CreateCompanyMutation as CreateCompanyMutationType,
-    CompanyQuery_company
+    CompanyQuery_company,
+    MyCompaniesQuery as MyCompaniesQueryType
 } from 'GraphqlTypes'
-import { CreateCompanyMutation } from 'GraphqlQueries'
+import { CreateCompanyMutation, MyCompaniesQuery } from 'GraphqlQueries'
 import { GraphqlService } from 'Common/Services/graphqlService'
 
 export interface CreateCompanyResponse {
@@ -14,6 +15,10 @@ export interface CreateCompanyResponse {
 
 export class CompanyService {
     constructor(private readonly graphqlService: GraphqlService) {}
+
+    getMyCompanies() {
+        return this.graphqlService.query<MyCompaniesQueryType>(MyCompaniesQuery)
+    }
 
     createCompany(
         variables: CreateCompanyMutationVariables
