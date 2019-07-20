@@ -24,7 +24,6 @@ export const RegisterForm: React.FC<Props> = ({ register, switchForm }) => (
         onSubmit={(values, { resetForm }) => {
             register(values)
             resetForm()
-            switchForm()
         }}
     >
         <Form>
