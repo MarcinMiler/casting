@@ -20,6 +20,10 @@ export class CompanyService {
         return this.companyRepo.find()
     }
 
+    myCompanies(userId: number) {
+        return this.companyRepo.find({ where: { userId } })
+    }
+
     async createCompany(userId: number, company: CompanyDto) {
         const newCompany = this.companyRepo.create({
             ...company,

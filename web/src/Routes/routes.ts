@@ -22,6 +22,10 @@ export const routes = [
         component: React.lazy(() => import('Pages/CreateCompany'))
     },
     {
+        path: '/my-companies',
+        component: React.lazy(() => import('Pages/MyCompanies'))
+    },
+    {
         path: '/',
         component: React.lazy(() => import('Pages/Login'))
     }
