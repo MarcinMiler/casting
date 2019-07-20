@@ -8,11 +8,11 @@ export const loginAsync = createAsyncAction(
     'LOGIN_SUCCEED',
     'LOGIN_FAILURE',
     'LOGIN_CANCEL'
-)<LoginMutationVariables, string, Error, string>()
+)<LoginMutationVariables, string, undefined, string>()
 
 export const registerAsync = createAsyncAction(
     'REGISTER_REQUEST',
     'REGISTER_SUCCEED',
     'REGISTER_FAILURE',
     'REGISTER_CANCEL'
-)<RegisterMutationVariables, boolean, Error, string>()
+)<RegisterMutationVariables, boolean, undefined, string>()

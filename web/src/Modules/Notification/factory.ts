@@ -7,6 +7,16 @@ export const createNotification = (notification: CreateNotification) => ({
     ...notification
 })
 
+export const formatGraphqlError = (err: Error) =>
+    err.message.replace('GraphQL error: ', '')
+
+export const loginNotificationFailed = (err: Error) =>
+    createNotification({
+        title: formatGraphqlError(err),
+        description: '',
+        type: NotificationTypes.FAILURE
+    })
+
 const registerInfo = {
     title: 'Successfully registered',
     description: 'Now you can login'
@@ -18,9 +28,10 @@ export const registerNotificationSucceed = () =>
         type: NotificationTypes.SUCCEED
     })
 
-export const registerNotificationFailed = () =>
+export const registerNotificationFailed = (err: Error) =>
     createNotification({
-        ...registerInfo,
+        title: formatGraphqlError(err),
+        description: '',
         type: NotificationTypes.FAILURE
     })
 
