@@ -1,4 +1,9 @@
-import { LoginMutationVariables, RegisterMutationVariables } from 'GraphqlTypes'
+import {
+    LoginMutationVariables,
+    RegisterMutationVariables,
+    MeQuery
+} from 'GraphqlTypes'
+import { apolloMock } from 'Common/Mocks/apolloMock'
 import { LoginResponse, RegisterResponse } from '../service'
 
 export const mockLoginVariables: LoginMutationVariables = {
@@ -22,3 +27,12 @@ export const mockRegisterResponse: RegisterResponse = {
         register: true
     }
 }
+
+export const meMock = {
+    id: 1,
+    email: 'm@m.com'
+}
+
+export const apolloMeMockResponse = apolloMock<MeQuery>({
+    me: meMock
+})
