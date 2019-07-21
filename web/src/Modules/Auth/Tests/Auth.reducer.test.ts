@@ -7,6 +7,6 @@ describe('Auth reducer', () => {
 
         expect(
             authReducer(defaultAuthState, actions.loginAsync.success(token))
-        ).toEqual({ token })
+        ).toEqual({ ...defaultAuthState, token })
     })
 })

@@ -5,11 +5,12 @@ import {
     exhaustMap,
     tap,
     mergeMap,
-    catchError
+    catchError,
+    switchMap
 } from 'rxjs/operators'
 import { combineEpics } from 'redux-observable'
 import { isActionOf } from 'typesafe-actions'
-import { from } from 'rxjs'
+import { from, of } from 'rxjs'
 
 import { Epic } from 'Config/rootEpic'
 import { RoutingService } from 'Common/Services/routingService'
@@ -17,7 +18,8 @@ import { showNotification } from 'Modules/Notification/actions'
 import {
     registerNotificationSucceed,
     registerNotificationFailed,
-    loginNotificationFailed
+    loginNotificationFailed,
+    notAuthenticatedNotification
 } from 'Modules/Notification/factory'
 import { AuthService } from './service'
 import * as actions from './actions'
@@ -59,5 +61,19 @@ export const authEpicFactory = (
             )
         )
 
-    return combineEpics(loginEpic, registerEpic)
+    const meEpic: Epic = action$ =>
+        action$.pipe(
+            filter(isActionOf(actions.getMeAsync.request)),
+            pluck('payload'),
+            switchMap(() => authService.me()),
+            map(res => actions.getMeAsync.success(res)),
+            catchError(() =>
+                from([
+                    actions.getMeAsync.failure(),
+                    showNotification(notAuthenticatedNotification())
+                ])
+            )
+        )
+
+    return combineEpics(loginEpic, registerEpic, meEpic)
 }

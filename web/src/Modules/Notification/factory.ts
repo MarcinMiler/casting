@@ -17,6 +17,13 @@ export const loginNotificationFailed = (err: Error) =>
         type: NotificationTypes.FAILURE
     })
 
+export const notAuthenticatedNotification = () =>
+    createNotification({
+        title: 'Not Authenticated',
+        description: '',
+        type: NotificationTypes.FAILURE
+    })
+
 const registerInfo = {
     title: 'Successfully registered',
     description: 'Now you can login'

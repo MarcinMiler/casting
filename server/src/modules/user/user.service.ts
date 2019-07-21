@@ -16,6 +16,10 @@ export class UserService {
         private readonly authService: AuthService
     ) {}
 
+    me(userId: number) {
+        return this.userRepository.findOne(userId)
+    }
+
     async register(register: RegisterDto) {
         const { email, password } = register
 
