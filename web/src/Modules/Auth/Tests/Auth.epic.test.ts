@@ -1,8 +1,10 @@
 import { StateObservable, ActionsObservable } from 'redux-observable'
 import { Subject, of } from 'rxjs'
+import { toArray } from 'rxjs/operators'
 import * as TypeMoq from 'typemoq'
 
 import { RoutingService } from 'Common/Services/routingService'
+import { showNotification } from 'Modules/Notification/actions'
 import { AuthService } from '../service'
 import { authEpicFactory } from '../epic'
 import * as actions from '../actions'
@@ -11,17 +13,28 @@ import {
     mockLoginResponse,
     mockRegisterVariables,
     mockRegisterResponse,
-    apolloMeMockResponse
+    apolloMeMockResponse,
+    mockLoginFailedNotification,
+    mockRegisterSucceedNotification,
+    mockRegisterFailedNotification,
+    mockNotAuthenticatedNotification
 } from './mocks'
+import { authNotificationsFactory } from '../notifications'
 
 describe('Auth Epic', () => {
     const mockState = new StateObservable(new Subject(), {})
     let mockAuthService: TypeMoq.IMock<AuthService>
     let mockRoutingService: TypeMoq.IMock<RoutingService>
+    let mockNotificationFactory: TypeMoq.IMock<
+        ReturnType<typeof authNotificationsFactory>
+    >
 
     beforeEach(() => {
         mockAuthService = TypeMoq.Mock.ofType<AuthService>()
         mockRoutingService = TypeMoq.Mock.ofType<RoutingService>()
+        mockNotificationFactory = TypeMoq.Mock.ofType<
+            ReturnType<typeof authNotificationsFactory>
+        >()
     })
 
     it('should handle login', done => {
@@ -42,7 +55,8 @@ describe('Auth Epic', () => {
 
         const authEpicFactoryInstance = authEpicFactory(
             mockAuthService.object,
-            mockRoutingService.object
+            mockRoutingService.object,
+            mockNotificationFactory.object
         )
 
         const action$ = of(actions.loginAsync.request(mockLoginVariables))
@@ -72,24 +86,36 @@ describe('Auth Epic', () => {
             .setup(x => x.push(TypeMoq.It.isValue('/castings')))
             .verifiable(TypeMoq.Times.never())
 
+        mockNotificationFactory
+            .setup(x =>
+                x.loginNotificationFailed(
+                    TypeMoq.It.isObjectWith(new Error('Invalid credentials'))
+                )
+            )
+            .returns(() => mockLoginFailedNotification)
+            .verifiable()
+
         const authEpicFactoryInstance = authEpicFactory(
             mockAuthService.object,
-            mockRoutingService.object
+            mockRoutingService.object,
+            mockNotificationFactory.object
         )
 
         const action$ = of(actions.loginAsync.request(mockLoginVariables))
 
-        authEpicFactoryInstance(
-            new ActionsObservable(action$),
-            mockState,
-            null
-        ).subscribe(res => {
-            expect(res).toEqual(actions.loginAsync.failure())
-            mockAuthService.verifyAll()
-            mockRoutingService.verifyAll()
+        authEpicFactoryInstance(new ActionsObservable(action$), mockState, null)
+            .pipe(toArray())
+            .subscribe(res => {
+                expect(res).toEqual([
+                    actions.loginAsync.failure(),
+                    showNotification(mockLoginFailedNotification)
+                ])
+                mockAuthService.verifyAll()
+                mockRoutingService.verifyAll()
+                mockNotificationFactory.verifyAll()
 
-            done()
-        })
+                done()
+            })
     })
 
     it('should register', done => {
@@ -100,23 +126,31 @@ describe('Auth Epic', () => {
             .returns(() => Promise.resolve(mockRegisterResponse))
             .verifiable()
 
+        mockNotificationFactory
+            .setup(x => x.registerNotificationSucceed())
+            .returns(() => mockRegisterSucceedNotification)
+            .verifiable()
+
         const authEpicFactoryInstance = authEpicFactory(
             mockAuthService.object,
-            mockRoutingService.object
+            mockRoutingService.object,
+            mockNotificationFactory.object
         )
 
         const action$ = of(actions.registerAsync.request(mockRegisterVariables))
 
-        authEpicFactoryInstance(
-            new ActionsObservable(action$),
-            mockState,
-            null
-        ).subscribe(res => {
-            expect(res).toEqual(actions.registerAsync.success(true))
-            mockAuthService.verifyAll()
+        authEpicFactoryInstance(new ActionsObservable(action$), mockState, null)
+            .pipe(toArray())
+            .subscribe(res => {
+                expect(res).toEqual([
+                    actions.registerAsync.success(true),
+                    showNotification(mockRegisterSucceedNotification)
+                ])
+                mockAuthService.verifyAll()
+                mockNotificationFactory.verifyAll()
 
-            done()
-        })
+                done()
+            })
     })
 
     it('should not register', done => {
@@ -124,26 +158,38 @@ describe('Auth Epic', () => {
             .setup(x =>
                 x.register(TypeMoq.It.isObjectWith(mockRegisterVariables))
             )
-            .throws(new Error())
+            .throws(new Error('Registration Failed'))
+            .verifiable()
+
+        mockNotificationFactory
+            .setup(x =>
+                x.registerNotificationFailed(
+                    TypeMoq.It.isObjectWith(new Error('Registration Failed'))
+                )
+            )
+            .returns(() => mockRegisterFailedNotification)
             .verifiable()
 
         const authEpicFactoryInstance = authEpicFactory(
             mockAuthService.object,
-            mockRoutingService.object
+            mockRoutingService.object,
+            mockNotificationFactory.object
         )
 
         const action$ = of(actions.registerAsync.request(mockRegisterVariables))
 
-        authEpicFactoryInstance(
-            new ActionsObservable(action$),
-            mockState,
-            null
-        ).subscribe(res => {
-            expect(res).toEqual(actions.registerAsync.failure())
-            mockAuthService.verifyAll()
+        authEpicFactoryInstance(new ActionsObservable(action$), mockState, null)
+            .pipe(toArray())
+            .subscribe(res => {
+                expect(res).toEqual([
+                    actions.registerAsync.failure(),
+                    showNotification(mockRegisterFailedNotification)
+                ])
+                mockAuthService.verifyAll()
+                mockNotificationFactory.verifyAll()
 
-            done()
-        })
+                done()
+            })
     })
 
     it('should get me', done => {
@@ -154,7 +200,8 @@ describe('Auth Epic', () => {
 
         const authEpicFactoryInstance = authEpicFactory(
             mockAuthService.object,
-            mockRoutingService.object
+            mockRoutingService.object,
+            mockNotificationFactory.object
         )
 
         const action$ = of(actions.getMeAsync.request())
@@ -179,22 +226,30 @@ describe('Auth Epic', () => {
             .throws(new Error())
             .verifiable()
 
+        mockNotificationFactory
+            .setup(x => x.notAuthenticatedNotification())
+            .returns(() => mockNotAuthenticatedNotification)
+            .verifiable()
+
         const authEpicFactoryInstance = authEpicFactory(
             mockAuthService.object,
-            mockRoutingService.object
+            mockRoutingService.object,
+            mockNotificationFactory.object
         )
 
         const action$ = of(actions.getMeAsync.request())
 
-        authEpicFactoryInstance(
-            new ActionsObservable(action$),
-            mockState,
-            null
-        ).subscribe(res => {
-            expect(res).toEqual(actions.getMeAsync.failure())
-            mockAuthService.verifyAll()
+        authEpicFactoryInstance(new ActionsObservable(action$), mockState, null)
+            .pipe(toArray())
+            .subscribe(res => {
+                expect(res).toEqual([
+                    actions.getMeAsync.failure(),
+                    showNotification(mockNotAuthenticatedNotification)
+                ])
+                mockAuthService.verifyAll()
+                mockNotificationFactory.verifyAll()
 
-            done()
-        })
+                done()
+            })
     })
 })

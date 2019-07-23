@@ -10,23 +10,19 @@ import {
 } from 'rxjs/operators'
 import { combineEpics } from 'redux-observable'
 import { isActionOf } from 'typesafe-actions'
-import { from, of } from 'rxjs'
+import { from } from 'rxjs'
 
 import { Epic } from 'Config/rootEpic'
 import { RoutingService } from 'Common/Services/routingService'
 import { showNotification } from 'Modules/Notification/actions'
-import {
-    registerNotificationSucceed,
-    registerNotificationFailed,
-    loginNotificationFailed,
-    notAuthenticatedNotification
-} from 'Modules/Notification/factory'
+import { authNotificationsFactory } from './notifications'
 import { AuthService } from './service'
 import * as actions from './actions'
 
 export const authEpicFactory = (
     authService: AuthService,
-    routingService: RoutingService
+    routingService: RoutingService,
+    notificationFactory: ReturnType<typeof authNotificationsFactory>
 ): Epic => {
     const loginEpic: Epic = action$ =>
         action$.pipe(
@@ -39,7 +35,9 @@ export const authEpicFactory = (
             catchError(err =>
                 from([
                     actions.loginAsync.failure(),
-                    showNotification(loginNotificationFailed(err))
+                    showNotification(
+                        notificationFactory.loginNotificationFailed(err)
+                    )
                 ])
             )
         )
@@ -51,12 +49,16 @@ export const authEpicFactory = (
             exhaustMap(variables => authService.register(variables)),
             mergeMap(res => [
                 actions.registerAsync.success(res.data.register),
-                showNotification(registerNotificationSucceed())
+                showNotification(
+                    notificationFactory.registerNotificationSucceed()
+                )
             ]),
             catchError(err =>
                 from([
                     actions.registerAsync.failure(),
-                    showNotification(registerNotificationFailed(err))
+                    showNotification(
+                        notificationFactory.registerNotificationFailed(err)
+                    )
                 ])
             )
         )
@@ -70,7 +72,9 @@ export const authEpicFactory = (
             catchError(() =>
                 from([
                     actions.getMeAsync.failure(),
-                    showNotification(notAuthenticatedNotification())
+                    showNotification(
+                        notificationFactory.notAuthenticatedNotification()
+                    )
                 ])
             )
         )
