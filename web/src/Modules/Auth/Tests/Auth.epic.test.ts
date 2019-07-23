@@ -8,6 +8,7 @@ import { showNotification } from 'Modules/Notification/actions'
 import { AuthService } from '../service'
 import { authEpicFactory } from '../epic'
 import * as actions from '../actions'
+import { AuthNotificationsFactory } from '../notifications'
 import {
     mockLoginVariables,
     mockLoginResponse,
@@ -19,21 +20,18 @@ import {
     mockRegisterFailedNotification,
     mockNotAuthenticatedNotification
 } from './mocks'
-import { authNotificationsFactory } from '../notifications'
 
 describe('Auth Epic', () => {
     const mockState = new StateObservable(new Subject(), {})
     let mockAuthService: TypeMoq.IMock<AuthService>
     let mockRoutingService: TypeMoq.IMock<RoutingService>
-    let mockNotificationFactory: TypeMoq.IMock<
-        ReturnType<typeof authNotificationsFactory>
-    >
+    let mockNotificationFactory: TypeMoq.IMock<AuthNotificationsFactory>
 
     beforeEach(() => {
         mockAuthService = TypeMoq.Mock.ofType<AuthService>()
         mockRoutingService = TypeMoq.Mock.ofType<RoutingService>()
         mockNotificationFactory = TypeMoq.Mock.ofType<
-            ReturnType<typeof authNotificationsFactory>
+            AuthNotificationsFactory
         >()
     })
 

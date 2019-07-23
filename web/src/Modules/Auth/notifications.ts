@@ -1,10 +1,16 @@
 import {
-    createNotification,
-    formatGraphqlError
+    formatGraphqlError,
+    CreateNotification
 } from 'Modules/Notification/factory'
 import { NotificationTypes } from 'Modules/Notification/models'
 
-export const authNotificationsFactory = () => {
+export type AuthNotificationsFactory = ReturnType<
+    typeof authNotificationsFactory
+>
+
+export const authNotificationsFactory = (
+    createNotification: CreateNotification
+) => {
     const loginNotificationFailed = (err: Error) =>
         createNotification({
             title: formatGraphqlError(err),
@@ -38,5 +44,5 @@ export const authNotificationsFactory = () => {
         registerNotificationSucceed,
         registerNotificationFailed,
         notAuthenticatedNotification
-    }
+    } as const
 }

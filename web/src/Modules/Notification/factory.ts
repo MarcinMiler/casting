@@ -1,8 +1,13 @@
 import nanoid from 'nanoid'
 
-import { CreateNotification, NotificationTypes } from './models'
+import {
+    CreateNotification as CreateNotificationType,
+    NotificationTypes
+} from './models'
 
-export const createNotification = (notification: CreateNotification) => ({
+export type CreateNotification = typeof createNotification
+
+export const createNotification = (notification: CreateNotificationType) => ({
     id: nanoid(),
     ...notification
 })

@@ -4,6 +4,7 @@ import {
     MeQuery
 } from 'GraphqlTypes'
 import { apolloMock } from 'Common/Mocks/apolloMock'
+import { createNotification } from 'Modules/Notification/factory'
 import { LoginResponse, RegisterResponse } from '../service'
 import { authNotificationsFactory } from '../notifications'
 
@@ -38,7 +39,9 @@ export const apolloMeMockResponse = apolloMock<MeQuery>({
     me: meMock
 })
 
-const mockNotificationFactory = authNotificationsFactory()
+export const token = 'token'
+
+const mockNotificationFactory = authNotificationsFactory(createNotification)
 
 export const mockLoginFailedNotification = mockNotificationFactory.loginNotificationFailed(
     new Error('Invalid credentials')
