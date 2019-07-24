@@ -3,7 +3,7 @@ export const routesList = {
     castings: '/castings',
     casting: (id: number) => `/casting/${id}`,
     createCasting: '/create-casting',
-    createCompany: '/creat-company',
+    createCompany: '/create-company',
     myCompanies: '/my-companies',
-    myCompany: (id: number) => `/my-company/${id}`
+    myCompany: (id: string) => `/my-company/${id}`
 }

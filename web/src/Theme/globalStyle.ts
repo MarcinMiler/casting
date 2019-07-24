@@ -18,6 +18,14 @@ export const GlobalStyle = createGlobalStyle`
     p {
         margin: 0;
     }
+    button {
+        border: none;
+        cursor: pointer;
+        
+        &:focus {
+            outline: none;
+        }
+    }
     input, textarea {
         border: none;
         font-family: 'Montserrat', sans-serif;

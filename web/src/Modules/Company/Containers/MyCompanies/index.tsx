@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { AppState } from 'Config/appState'
 import { MyCompaniesQuery_myCompanies } from 'GraphqlTypes'
 import { getMyCompaniesAsync } from 'Modules/Company/actions'
-import { MyCompany } from '../../Components/MyCompany'
+import { MyCompaniesList } from 'Modules/Company/Components/MyCompaniesList'
 
 interface PropsState {
     myCompanies: MyCompaniesQuery_myCompanies[]
@@ -14,19 +14,13 @@ type Props = PropsState & typeof mapDispatchToProps
 
 export const MyCompaniesContainerPure: React.FC<Props> = ({
     getMyCompanies,
-    myCompanies
+    ...props
 }) => {
     React.useEffect(() => {
         getMyCompanies()
     }, [])
 
-    return (
-        <>
-            {myCompanies.map(company => (
-                <MyCompany myCompany={company} />
-            ))}
-        </>
-    )
+    return <MyCompaniesList {...props} />
 }
 
 const mapStateToProps = (state: AppState) => ({

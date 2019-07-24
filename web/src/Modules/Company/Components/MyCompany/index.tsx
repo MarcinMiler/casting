@@ -1,7 +1,8 @@
 import * as React from 'react'
 
-import { StyledLink } from 'Components'
 import { MyCompaniesQuery_myCompanies } from 'GraphqlTypes'
+import { StyledLink } from 'Components'
+import { routesList } from 'Routes/routesList'
 import { Container } from './style'
 
 interface Props {
@@ -9,7 +10,7 @@ interface Props {
 }
 
 export const MyCompany: React.FC<Props> = ({ myCompany }) => (
-    <StyledLink to={`/myCompany/${myCompany.id}`}>
+    <StyledLink to={routesList.myCompany(myCompany.id)}>
         <Container />
     </StyledLink>
 )

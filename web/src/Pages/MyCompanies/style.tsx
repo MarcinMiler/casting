@@ -9,8 +9,7 @@ export const Container = styled.div`
 `
 export const Wrapper = styled.div`
     width: 820px;
-    min-height: 350px;
-    padding: 10px;
+    padding: 30px;
     display: flex;
     flex-wrap: wrap;
     box-shadow: 0px 5px 15px lightgray;
