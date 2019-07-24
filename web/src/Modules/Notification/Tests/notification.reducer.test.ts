@@ -1,13 +1,10 @@
 import { notificationReducer, defaultNotificationState } from '../reducer'
-import {
-    registerNotificationSucceed,
-    createCastingNotificationSucceed
-} from '../factory'
 import * as actions from '../actions'
+import { testNotification } from './mocks'
 
 describe('Notification reducer', () => {
     it('should save notification', () => {
-        const notification = registerNotificationSucceed()
+        const notification = testNotification()
 
         expect(
             notificationReducer(
@@ -20,8 +17,9 @@ describe('Notification reducer', () => {
     })
 
     it('should remove notification', () => {
-        const registerNotification = registerNotificationSucceed()
-        const createCastingNotification = createCastingNotificationSucceed()
+        const registerNotification = testNotification()
+        const createCastingNotification = testNotification()
+
         const state = {
             notifications: [registerNotification, createCastingNotification]
         }

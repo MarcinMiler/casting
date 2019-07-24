@@ -7,13 +7,13 @@ import * as actions from './actions'
 
 export const notificationEpicFactory = (): Epic => {
     const notificationEpic: Epic = action$ => {
-        const closeNotification$ = action$.pipe(
-            filter(isOfType(actions.CLOSE_NOTIFICATION))
-        )
+        // const closeNotification$ = action$.pipe(
+        //     filter(isOfType(actions.CLOSE_NOTIFICATION))
+        // )
 
         return action$.pipe(
             filter(isOfType(actions.SHOW_NOTIFICATION)),
-            takeUntil(closeNotification$),
+            // takeUntil(closeNotification$),
             delay(6000),
             pluck('payload', 'id'),
             map(actions.closeNotification)
