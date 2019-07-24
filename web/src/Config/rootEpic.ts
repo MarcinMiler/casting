@@ -7,6 +7,7 @@ import { notificationEpicFactory } from 'Modules/Notification/epic'
 import { companyEpicFactory } from 'Modules/Company/epic'
 import { authNotificationsFactory } from 'Modules/Auth/notifications'
 import { castingNotificationsFactory } from 'Modules/Casting/notifications'
+import { companyNotificationsFactory } from 'Modules/Company/notifications'
 import {
     castingService,
     authService,
@@ -29,5 +30,9 @@ export const rootEpic = combineEpics(
         authNotificationsFactory(createNotification)
     ),
     notificationEpicFactory(),
-    companyEpicFactory(companyService, routingService)
+    companyEpicFactory(
+        companyService,
+        routingService,
+        companyNotificationsFactory(createNotification)
+    )
 )
