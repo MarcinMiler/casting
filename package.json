@@ -6,7 +6,9 @@
     "author": "Marcin Miler <marcin4951@gmail.com>",
     "license": "MIT",
     "scripts": {
-        "test": "cd web && CI=true yarn run test"
+        "test:web": "cd web && CI=true yarn run test",
+        "test:server": "cd server && yarn run test",
+        "test": "yarn run test:web && yarn run test:server "
     },
     "devDependencies": {
         "husky": "^2.4.1",
