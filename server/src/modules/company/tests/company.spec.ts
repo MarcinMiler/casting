@@ -1,40 +1,62 @@
+import { Repository } from 'typeorm'
 import * as TypeMoq from 'typemoq'
-import { Repository, UpdateResult } from 'typeorm'
 
-import { Company } from './company.entity'
-import { CompanyService } from './company.service'
+import { Company } from '../company.entity'
+import { CompanyService } from '../company.service'
+import {
+    mockCompanyDto,
+    mockUpdateCompanyDto,
+    mockCompany,
+    userId,
+    otherUserId,
+    mockCompanies,
+    notValidUserException,
+    deleteCompanyFailedException
+} from './mocks'
 
 describe('Company module', () => {
     let mockCompanyRepo: TypeMoq.IMock<Repository<Company>>
     let companyService: CompanyService
 
-    const mockCompanyDto = {
-        name: 'name',
-        logo: 'logo',
-        description: 'desc'
-    }
-
-    const mockUpdateCompanyDto = {
-        name: 'name2',
-        logo: 'logo2',
-        description: 'desc2'
-    }
-
-    const mockCompany = {
-        id: 1,
-        name: 'name',
-        logo: 'logo',
-        description: 'desc',
-        userId: 1,
-        castings: []
-    }
-
-    const userId = 1
-    const otherUserId = 2
-
     beforeEach(() => {
         mockCompanyRepo = TypeMoq.Mock.ofType<Repository<Company>>()
         companyService = new CompanyService(mockCompanyRepo.object)
+    })
+
+    it('should find company', async () => {
+        mockCompanyRepo
+            .setup(x => x.findOne(TypeMoq.It.isValue(1)))
+            .returns(() => Promise.resolve(mockCompany))
+            .verifiable()
+
+        const casting = await companyService.findOne(1)
+
+        expect(casting).toEqual(mockCompany)
+        mockCompanyRepo.verifyAll()
+    })
+
+    it('should find all companies', async () => {
+        mockCompanyRepo
+            .setup(x => x.find())
+            .returns(() => Promise.resolve(mockCompanies))
+            .verifiable()
+
+        const casting = await companyService.findAll()
+
+        expect(casting).toEqual(mockCompanies)
+        mockCompanyRepo.verifyAll()
+    })
+
+    it('should find my companies', async () => {
+        mockCompanyRepo
+            .setup(x => x.find(TypeMoq.It.isAny()))
+            .returns(() => Promise.resolve(mockCompanies))
+            .verifiable()
+
+        const casting = await companyService.myCompanies(1)
+
+        expect(casting).toEqual(mockCompanies)
+        mockCompanyRepo.verifyAll()
     })
 
     it('should create company', async () => {
@@ -77,7 +99,7 @@ describe('Company module', () => {
 
     it('should not delete company with other userId', async () => {
         mockCompanyRepo
-            .setup(x => x.delete(TypeMoq.It.isAnyNumber()))
+            .setup(x => x.delete(TypeMoq.It.isValue(otherUserId)))
             .verifiable(TypeMoq.Times.never())
 
         mockCompanyRepo
@@ -85,16 +107,15 @@ describe('Company module', () => {
             .returns(() => Promise.resolve(mockCompany))
             .verifiable()
 
-        const deletedCompany = await companyService.deleteCompany(
-            otherUserId,
-            mockCompany.id
-        )
-
-        expect(deletedCompany).toBeFalsy()
-        mockCompanyRepo.verifyAll()
+        try {
+            await companyService.deleteCompany(otherUserId, mockCompany.id)
+        } catch (err) {
+            expect(err).toEqual(notValidUserException)
+            mockCompanyRepo.verifyAll()
+        }
     })
 
-    it('should not delete company on delete error adn retun false', async () => {
+    it('should not delete company on delete error', async () => {
         mockCompanyRepo
             .setup(x => x.delete(TypeMoq.It.isAnyNumber()))
             .throws(new Error())
@@ -105,13 +126,12 @@ describe('Company module', () => {
             .returns(() => Promise.resolve(mockCompany))
             .verifiable()
 
-        const deletedCompany = await companyService.deleteCompany(
-            userId,
-            mockCompany.id
-        )
-
-        expect(deletedCompany).toBeFalsy()
-        mockCompanyRepo.verifyAll()
+        try {
+            await companyService.deleteCompany(userId, mockCompany.id)
+        } catch (err) {
+            expect(err).toEqual(deleteCompanyFailedException)
+            mockCompanyRepo.verifyAll()
+        }
     })
 
     it('should update company', async () => {
@@ -138,7 +158,7 @@ describe('Company module', () => {
         mockCompanyRepo
             .setup(x =>
                 x.update(
-                    TypeMoq.It.isAnyNumber(),
+                    TypeMoq.It.isValue(1),
                     TypeMoq.It.isObjectWith(mockUpdateCompanyDto)
                 )
             )
@@ -149,9 +169,17 @@ describe('Company module', () => {
             .returns(() => Promise.resolve(mockCompany))
             .verifiable()
 
-        await companyService.updateCompany(otherUserId, 1, mockUpdateCompanyDto)
+        try {
+            await companyService.updateCompany(
+                otherUserId,
+                1,
+                mockUpdateCompanyDto
+            )
+        } catch (err) {
+            expect(err).toEqual(notValidUserException)
 
-        mockCompanyRepo.verifyAll()
+            mockCompanyRepo.verifyAll()
+        }
     })
 
     it('should compare userIds and return true', async () => {

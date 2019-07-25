@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common'
+import { Injectable, HttpException, HttpStatus } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 
@@ -32,7 +32,6 @@ export class CompanyService {
         })
 
         await this.companyRepo.save(newCompany)
-        console.log(newCompany)
         return newCompany
     }
 
@@ -40,14 +39,17 @@ export class CompanyService {
         const isValidUserId = await this.compareUsersIds(id, userId)
 
         if (!isValidUserId) {
-            return false
+            throw new HttpException('Not valid user', HttpStatus.CONFLICT)
         }
 
         try {
             await this.companyRepo.delete(id)
             return true
         } catch (err) {
-            return false
+            throw new HttpException(
+                'Delete company failed',
+                HttpStatus.NOT_FOUND
+            )
         }
     }
 
@@ -55,7 +57,7 @@ export class CompanyService {
         const isValidUserId = await this.compareUsersIds(id, userId)
 
         if (!isValidUserId) {
-            return false
+            throw new HttpException('Not valid user', HttpStatus.CONFLICT)
         }
 
         return this.companyRepo.update(id, company)
