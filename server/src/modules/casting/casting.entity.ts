@@ -42,7 +42,7 @@ export class Casting {
     updatedAt: Date
 
     @Column()
-    companyId: Date
+    companyId: number
 
     @ManyToOne(() => Company, company => company.castings)
     company: Company

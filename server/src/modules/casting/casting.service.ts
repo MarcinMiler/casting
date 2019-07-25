@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common'
+import { Injectable, HttpException, HttpStatus } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository, FindManyOptions, LessThan } from 'typeorm'
 
@@ -17,16 +17,11 @@ export class CastingService {
         return this.castingRepo.findOne(id)
     }
 
-    findAll(cursor: string) {
+    findAll(cursor?: string) {
         const options: FindManyOptions<Casting> = {
             order: { createdAt: 'DESC' },
-            take: 20
-        }
-
-        if (cursor) {
-            options.where = {
-                createdAt: LessThan(cursor)
-            }
+            take: 20,
+            where: cursor ? { createdAt: LessThan(cursor) } : {}
         }
 
         return this.castingRepo.find(options)
@@ -44,7 +39,10 @@ export class CastingService {
             this.castingRepo.delete(id)
             return true
         } catch (err) {
-            return false
+            throw new HttpException(
+                'Delete casting failed',
+                HttpStatus.NOT_FOUND
+            )
         }
     }
 
