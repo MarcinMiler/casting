@@ -2,22 +2,14 @@ import * as TypeMoq from 'typemoq'
 import { Repository } from 'typeorm'
 import { JwtService } from '@nestjs/jwt'
 
-import { User } from '../user/user.entity'
-import { AuthService } from './auth.service'
-import { JwtPayload } from './interfaces/JwtPayload.interface'
+import { User } from '../../user/user.entity'
+import { AuthService } from '../auth.service'
+import { mockUser, mockToken, mockPayload } from './mocks'
 
 describe('Auth module', () => {
     let mockUserRepo: TypeMoq.IMock<Repository<User>>
     let mockJwtService: TypeMoq.IMock<JwtService>
     let authService: AuthService
-
-    const mockUser: User = {
-        id: 1,
-        email: 'm@m.com',
-        password: 'mm'
-    }
-
-    const token = 'asdfghjkl'
 
     beforeEach(() => {
         mockUserRepo = TypeMoq.Mock.ofType<Repository<User>>()
@@ -31,7 +23,7 @@ describe('Auth module', () => {
     it('should sign id and return token', async () => {
         mockJwtService
             .setup(x => x.sign(TypeMoq.It.isAny()))
-            .returns(() => token)
+            .returns(() => mockToken)
             .verifiable()
 
         authService = new AuthService(
@@ -42,7 +34,7 @@ describe('Auth module', () => {
         const signToken = await authService.signIn(1)
 
         mockJwtService.verifyAll()
-        expect(signToken).toEqual(token)
+        expect(signToken).toEqual(mockToken)
     })
 
     it('should find user by payload id', async () => {
@@ -51,9 +43,7 @@ describe('Auth module', () => {
             .returns(() => Promise.resolve(mockUser))
             .verifiable()
 
-        const payload: JwtPayload = { id: 1 }
-
-        const user = await authService.validateUser(payload)
+        const user = await authService.validateUser(mockPayload)
 
         expect(user).toEqual(mockUser)
         mockUserRepo.verifyAll()
