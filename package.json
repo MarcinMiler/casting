@@ -11,7 +11,10 @@
         "test": "yarn run test:web && yarn run test:server",
         "build:web": "cd web && yarn build",
         "build:server": "cd server && yarn prestart:prod",
-        "build": "yarn build:web && yarn build:server"
+        "build": "yarn build:web && yarn build:server",
+        "install:web": "cd web && yarn",
+        "install:server": "cd server && yarn",
+        "install:packages": "yarn install:web && yarn install:server"
     },
     "devDependencies": {
         "@codechecks/build-size-watcher": "^0.1.0",
