@@ -6,8 +6,8 @@
     "author": "Marcin Miler <marcin4951@gmail.com>",
     "license": "MIT",
     "scripts": {
-        "test:web": "cd web && CI=true yarn run test && codecov",
-        "test:server": "cd server && yarn run test && codecov",
+        "test:web": "cd web && CI=true yarn run test --coverage",
+        "test:server": "cd server && yarn run test --coverage",
         "test": "yarn run test:web && yarn run test:server",
         "build:web": "cd web && yarn build",
         "build:server": "cd server && yarn prestart:prod",

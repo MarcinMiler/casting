@@ -17,6 +17,5 @@ cache:
 
 script:
     - yarn run install:packages
-    - yarn global add codecov
-    - yarn build
     - yarn test
+    - codecov
