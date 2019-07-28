@@ -8,9 +8,15 @@
     "scripts": {
         "test:web": "cd web && CI=true yarn run test",
         "test:server": "cd server && yarn run test",
-        "test": "yarn run test:web && yarn run test:server "
+        "test": "yarn run test:web && yarn run test:server",
+        "build:web": "cd web && yarn build",
+        "build:server": "cd server && yarn prestart:prod",
+        "build": "yarn build:web && yarn build:server"
     },
     "devDependencies": {
+        "@codechecks/build-size-watcher": "^0.1.0",
+        "@codechecks/client": "^0.1.5",
+        "@codechecks/type-coverage-watcher": "^0.1.1",
         "husky": "^2.4.1",
         "lint-staged": "^8.2.0",
         "prettier": "^1.18.2"

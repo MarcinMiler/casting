@@ -1,0 +1,9 @@
+checks:
+      options:
+          tsconfigPath: './server/tsconfig.ts'
+    - name: build-size-watcher
+      options:
+          gzip: false
+          files:
+              - path: './web/build'
+              - path: './server/dist'
