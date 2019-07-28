@@ -16,7 +16,6 @@ script:
     - yarn global add codecov
     - yarn build
     - yarn test
-    - yarn codechecks
 
 after_success:
     - codecov
