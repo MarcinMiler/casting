@@ -14,12 +14,19 @@ export const routes = [
         component: React.lazy(() => import('Pages/Casting'))
     },
     {
-        path: '/create',
-        component: React.lazy(() => import('Pages/CreateCasting'))
+        path: '/create-casting',
+        component: React.lazy(() => import('Pages/CreateCasting')),
+        auth: true
     },
     {
-        path: '/createCompany',
-        component: React.lazy(() => import('Pages/CreateCompany'))
+        path: '/create-company',
+        component: React.lazy(() => import('Pages/CreateCompany')),
+        auth: true
+    },
+    {
+        path: '/my-companies',
+        component: React.lazy(() => import('Pages/MyCompanies')),
+        auth: true
     },
     {
         path: '/',

@@ -1,11 +1,12 @@
 import { GraphqlService } from 'Common/Services/graphqlService'
 import {
+    MeQuery as MeQueryType,
     LoginMutation as LoginMutationType,
     LoginMutationVariables,
     RegisterMutation as RegisterMutationType,
     RegisterMutationVariables
 } from 'GraphqlTypes'
-import { LoginMutation, RegisterMutation } from 'GraphqlQueries'
+import { MeQuery, LoginMutation, RegisterMutation } from 'GraphqlQueries'
 
 export interface LoginResponse {
     data: {
@@ -21,6 +22,10 @@ export interface RegisterResponse {
 
 export class AuthService {
     constructor(private readonly graphqlService: GraphqlService) {}
+
+    me() {
+        return this.graphqlService.query<MeQueryType>(MeQuery)
+    }
 
     login(variables: LoginMutationVariables): Promise<LoginResponse> {
         return this.graphqlService.mutation<

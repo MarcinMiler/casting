@@ -9,7 +9,7 @@ export const Navbar: React.FC<Props> = () => (
         <Link to="/castings">New Faces</Link>
         <Link to="/castings">Models</Link>
         <Link to="/castings">Castings</Link>
-        <Link to="/castings">Manage</Link>
-        <Link to="/castings">My Profile</Link>
+        <Link to="/my-companies">Manage</Link>
+        <Link to="/create">My Profile</Link>
     </Container>
 )

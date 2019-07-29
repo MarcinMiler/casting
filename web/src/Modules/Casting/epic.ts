@@ -1,17 +1,28 @@
-import { filter, map, pluck, switchMap, tap, mergeMap } from 'rxjs/operators'
+import {
+    filter,
+    map,
+    pluck,
+    switchMap,
+    tap,
+    mergeMap,
+    catchError
+} from 'rxjs/operators'
 import { combineEpics } from 'redux-observable'
 import { isActionOf } from 'typesafe-actions'
+import { from } from 'rxjs'
 
 import { Epic } from 'Config/rootEpic'
 import { RoutingService } from 'Common/Services/routingService'
 import { showNotification } from 'Modules/Notification/actions'
-import { createCastingNotificationSucceed } from 'Modules/Notification/factory'
+import { routesList } from 'Routes/routesList'
+import { CastingNotificationsFactory } from './notifications'
 import { CastingService } from './service'
 import * as actions from './actions'
 
 export const castingEpicFactory = (
     castingService: CastingService,
-    routingService: RoutingService
+    routingService: RoutingService,
+    notificationFactory: CastingNotificationsFactory
 ): Epic => {
     const fetchCastingsEpic: Epic = action$ =>
         action$.pipe(
@@ -43,12 +54,24 @@ export const castingEpicFactory = (
             pluck('payload'),
             switchMap(variables => castingService.createCasting(variables)),
             tap(res =>
-                routingService.push(`/casting/${res.data.createCasting.id}`)
+                routingService.push(
+                    routesList.casting(res.data.createCasting.id)
+                )
             ),
             mergeMap(res => [
                 actions.createCastingAsync.success(res.data.createCasting),
-                showNotification(createCastingNotificationSucceed())
-            ])
+                showNotification(
+                    notificationFactory.createCastingNotificationSuccess()
+                )
+            ]),
+            catchError(err =>
+                from([
+                    actions.createCastingAsync.failure(err),
+                    showNotification(
+                        notificationFactory.createCastingNotificationFailed()
+                    )
+                ])
+            )
         )
 
     return combineEpics(

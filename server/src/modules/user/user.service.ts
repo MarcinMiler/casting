@@ -1,4 +1,4 @@
-import { Injectable, Inject, forwardRef } from '@nestjs/common'
+import { Injectable, Inject, HttpException, HttpStatus } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 
@@ -16,6 +16,10 @@ export class UserService {
         private readonly authService: AuthService
     ) {}
 
+    me(userId: number) {
+        return this.userRepository.findOne(userId)
+    }
+
     async register(register: RegisterDto) {
         const { email, password } = register
 
@@ -24,7 +28,10 @@ export class UserService {
         })
 
         if (emailExists) {
-            return
+            throw new HttpException(
+                'Email is already taken',
+                HttpStatus.CONFLICT
+            )
         }
 
         const hash = await this.bcrypt.hash(password, 10)
@@ -44,7 +51,7 @@ export class UserService {
         const user = await this.userRepository.findOne({ where: { email } })
 
         if (!user) {
-            return
+            throw new HttpException('Invalid credentials', HttpStatus.CONFLICT)
         }
 
         const comparePasswords = await this.bcrypt.compare(
@@ -53,7 +60,7 @@ export class UserService {
         )
 
         if (!comparePasswords) {
-            return
+            throw new HttpException('Invalid credentials', HttpStatus.CONFLICT)
         }
 
         const token = await this.authService.signIn(user.id)

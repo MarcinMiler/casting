@@ -1,6 +1,6 @@
 import { castingsReducer, defaultCastingState } from '../reducer'
-import { ApolloCastingsMock, CastingMock, ApolloCastingMock } from './mocks'
 import * as actions from '../actions'
+import { ApolloCastingsMock, CastingMock, ApolloCastingMock } from './mocks'
 
 describe('Casting Reducer', () => {
     it('should save fetched castings', () => {
@@ -13,6 +13,21 @@ describe('Casting Reducer', () => {
             ...defaultCastingState,
             isFetchingCastings: false,
             castings: [CastingMock]
+        })
+    })
+
+    it('should save more castings', () => {
+        const state = castingsReducer(
+            {
+                ...defaultCastingState,
+                castings: [CastingMock]
+            },
+            actions.getMoreCastingsAsync.success(ApolloCastingsMock)
+        )
+
+        expect(state).toEqual({
+            ...defaultCastingState,
+            castings: [CastingMock, ...ApolloCastingsMock.data.castings]
         })
     })
 

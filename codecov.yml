@@ -1,0 +1,16 @@
+coverage:
+    status:
+        project:
+            default: off
+            web:
+                flags: web
+            server:
+                flags: server
+
+flags:
+    server:
+        paths:
+            - server/src
+    web:
+        paths:
+            - web/src

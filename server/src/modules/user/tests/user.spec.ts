@@ -1,9 +1,16 @@
 import * as TypeMoq from 'typemoq'
 import { Repository } from 'typeorm'
 
-import { User } from './user.entity'
-import { UserService } from './user.service'
-import { AuthService } from '../auth/auth.service'
+import { User } from '../user.entity'
+import { UserService } from '../user.service'
+import { AuthService } from '../../auth/auth.service'
+import {
+    mockUser,
+    mockLoginDto,
+    mockRegisterDto,
+    invalidCredentialsException,
+    emailIsTakenException
+} from './mocks'
 
 describe('User module', () => {
     let mockUserRepo: TypeMoq.IMock<Repository<User>>
@@ -11,18 +18,6 @@ describe('User module', () => {
     let userService: UserService
     const bcrypt = {
         hash: jest.fn(() => 'hash')
-    }
-
-    const user = {
-        id: 1,
-        email: 'm@m.com',
-        password: 'hash',
-        username: 'm',
-        age: 20,
-        job: null,
-        education: null,
-        description: null,
-        matches: []
     }
 
     beforeEach(() => {
@@ -38,37 +33,42 @@ describe('User module', () => {
     it(`should not register with incorrect credentials`, async () => {
         mockUserRepo
             .setup(x => x.findOne(TypeMoq.It.isAny()))
-            .returns(() => Promise.resolve(user))
+            .returns(() => Promise.resolve(mockUser))
             .verifiable()
 
         mockUserRepo
-            .setup(x => x.create(TypeMoq.It.isAny()))
+            .setup(x => x.create(TypeMoq.It.isObjectWith(mockUser)))
             .verifiable(TypeMoq.Times.never())
 
-        // act
-        await userService.register(user)
-
-        // assert
-        mockUserRepo.verifyAll()
+        try {
+            await userService.register(mockRegisterDto)
+        } catch (err) {
+            expect(err).toEqual(emailIsTakenException)
+            mockUserRepo.verifyAll()
+        }
     })
 
     it('should register with correct credentials', async () => {
-        // arrange
         mockUserRepo
             .setup(x => x.findOne(TypeMoq.It.isAny()))
             .returns(() => null)
             .verifiable()
 
         mockUserRepo
-            .setup(x => x.create(TypeMoq.It.isObjectWith({ password: 'hash' })))
+            .setup(x =>
+                x.create(
+                    TypeMoq.It.isObjectWith({
+                        ...mockRegisterDto,
+                        password: 'hash'
+                    })
+                )
+            )
             .verifiable()
 
         mockUserRepo.setup(x => x.save(TypeMoq.It.isAny())).verifiable()
 
-        // act
-        const register = await userService.register(user)
+        const register = await userService.register(mockRegisterDto)
 
-        // assert
         expect(register).toBe(true)
         expect(bcrypt.hash).toHaveBeenCalledTimes(1)
 
@@ -76,8 +76,6 @@ describe('User module', () => {
     })
 
     it('should login with correct credentials', async () => {
-        // arrange
-
         const mockBcrypt = {
             compare: jest.fn(() => true)
         }
@@ -90,7 +88,7 @@ describe('User module', () => {
 
         mockUserRepo
             .setup(x => x.findOne(TypeMoq.It.isAny()))
-            .returns(() => Promise.resolve(user))
+            .returns(() => Promise.resolve(mockUser))
             .verifiable()
 
         authService
@@ -98,20 +96,14 @@ describe('User module', () => {
             .returns(() => Promise.resolve('token'))
             .verifiable()
 
-        // act
-        const login = await userService.login({
-            email: user.email,
-            password: user.password
-        })
+        const login = await userService.login(mockLoginDto)
 
-        // arrange
         expect(login).toBe('token')
         mockUserRepo.verifyAll()
         authService.verifyAll()
     })
 
     it('should not login with invalid email', async () => {
-        // arrange
         const mockBcrypt = {
             compare: jest.fn(() => false)
         }
@@ -132,21 +124,18 @@ describe('User module', () => {
             .returns(() => Promise.resolve('token'))
             .verifiable(TypeMoq.Times.never())
 
-        // act
-        const login = await userService.login({
-            email: user.email,
-            password: user.password
-        })
+        try {
+            await userService.login(mockLoginDto)
+        } catch (err) {
+            expect(err).toEqual(invalidCredentialsException)
+            expect(mockBcrypt.compare).toHaveBeenCalledTimes(0)
 
-        // arrange
-        expect(login).toBeUndefined()
-        expect(mockBcrypt.compare).toHaveBeenCalledTimes(0)
-        mockUserRepo.verifyAll()
-        authService.verifyAll()
+            mockUserRepo.verifyAll()
+            authService.verifyAll()
+        }
     })
 
     it('should not login with invalid password', async () => {
-        // arrange
         const mockBcrypt = {
             compare: jest.fn(() => false)
         }
@@ -159,7 +148,7 @@ describe('User module', () => {
 
         mockUserRepo
             .setup(x => x.findOne(TypeMoq.It.isAny()))
-            .returns(() => Promise.resolve(user))
+            .returns(() => Promise.resolve(mockUser))
             .verifiable()
 
         authService
@@ -167,16 +156,14 @@ describe('User module', () => {
             .returns(() => Promise.resolve('token'))
             .verifiable(TypeMoq.Times.never())
 
-        // act
-        const login = await userService.login({
-            email: user.email,
-            password: user.password
-        })
+        try {
+            await userService.login(mockLoginDto)
+        } catch (err) {
+            expect(err).toEqual(invalidCredentialsException)
+            expect(mockBcrypt.compare).toHaveBeenCalledTimes(1)
 
-        // arrange
-        expect(login).toBeUndefined()
-        expect(mockBcrypt.compare).toHaveBeenCalledTimes(1)
-        mockUserRepo.verifyAll()
-        authService.verifyAll()
+            mockUserRepo.verifyAll()
+            authService.verifyAll()
+        }
     })
 })

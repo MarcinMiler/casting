@@ -1,10 +1,12 @@
 import { appStateMock } from 'Common/Mocks/appStateMock'
 import { getCastings, getCastingsLatLng, getCasting } from '../selectors'
+import { defaultCastingState } from '../reducer'
 import { CastingMock } from './mocks'
 
 const appState = {
     ...appStateMock,
     castings: {
+        ...defaultCastingState,
         castings: [CastingMock],
         casting: {
             '1': CastingMock

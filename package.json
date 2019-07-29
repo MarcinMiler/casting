@@ -5,14 +5,28 @@
     "repository": "https://github.com/MarcinMiler/casting.git",
     "author": "Marcin Miler <marcin4951@gmail.com>",
     "license": "MIT",
+    "scripts": {
+        "test:web": "cd web && CI=true yarn run test --coverage",
+        "test:server": "cd server && yarn run test --coverage",
+        "test": "yarn run test:web && yarn run test:server",
+        "build:web": "cd web && yarn build",
+        "build:server": "cd server && yarn prestart:prod",
+        "build": "yarn build:web && yarn build:server",
+        "install:web": "cd web && yarn",
+        "install:server": "cd server && yarn",
+        "install:packages": "yarn install:web && yarn install:server"
+    },
     "devDependencies": {
+        "@codechecks/build-size-watcher": "^0.1.0",
+        "@codechecks/client": "^0.1.5",
+        "@codechecks/type-coverage-watcher": "^0.1.1",
         "husky": "^2.4.1",
         "lint-staged": "^8.2.0",
         "prettier": "^1.18.2"
     },
     "husky": {
         "hooks": {
-            "pre-commit": "lint-staged"
+            "pre-commit": "yarn run test && lint-staged"
         }
     },
     "lint-staged": {
@@ -20,5 +34,9 @@
             "prettier --config .prettierrc --write",
             "git add"
         ]
+    },
+    "jest": {
+        "coverageDirectory": "./coverage/",
+        "collectCoverage": true
     }
 }

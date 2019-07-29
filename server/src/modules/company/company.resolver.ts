@@ -21,6 +21,12 @@ export class CompanyResolver {
         return this.companyService.findAll()
     }
 
+    @Query('myCompanies')
+    @UseGuards(new GqlAuthGuard())
+    myCompanies(@Usr() user: User) {
+        return this.companyService.myCompanies(user.id)
+    }
+
     @Mutation('createCompany')
     @UseGuards(new GqlAuthGuard())
     createCompany(@Usr() user: User, @Args('input') company: CompanyDto) {

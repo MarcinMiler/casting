@@ -1,17 +1,28 @@
 import { combineEpics } from 'redux-observable'
 import { isActionOf } from 'typesafe-actions'
-import { filter, pluck, switchMap, mergeMap, tap } from 'rxjs/operators'
+import {
+    filter,
+    pluck,
+    switchMap,
+    mergeMap,
+    tap,
+    map,
+    catchError
+} from 'rxjs/operators'
+import { from } from 'rxjs'
 
 import { Epic } from 'Config/rootEpic'
 import { showNotification } from 'Modules/Notification/actions'
-import { createCompanyNotificationSucceed } from 'Modules/Notification/factory'
 import { RoutingService } from 'Common/Services/routingService'
+import { routesList } from 'Routes/routesList'
+import { CompanyNotificationsFactory } from './notifications'
 import { CompanyService } from './service'
 import * as actions from './actions'
 
 export const companyEpicFactory = (
     companyService: CompanyService,
-    routingService: RoutingService
+    routingService: RoutingService,
+    companyNotifications: CompanyNotificationsFactory
 ): Epic => {
     const createCompanyEpic: Epic = action$ =>
         action$.pipe(
@@ -20,10 +31,26 @@ export const companyEpicFactory = (
             switchMap(variables => companyService.createCompany(variables)),
             mergeMap(res => [
                 actions.createCompanyAsync.success(res.data.createCompany),
-                showNotification(createCompanyNotificationSucceed())
+                showNotification(companyNotifications.createCompanySuccess())
             ]),
-            tap(() => routingService.push('/castings'))
+            tap(() => routingService.push(routesList.myCompanies)),
+            catchError(err =>
+                from([
+                    actions.createCompanyAsync.failure(err),
+                    showNotification(
+                        companyNotifications.createCompanyFailed(err)
+                    )
+                ])
+            )
         )
 
-    return combineEpics(createCompanyEpic)
+    const myCompaniesEpic: Epic = action$ =>
+        action$.pipe(
+            filter(isActionOf(actions.getMyCompaniesAsync.request)),
+            pluck('payload'),
+            switchMap(() => companyService.getMyCompanies()),
+            map(res => actions.getMyCompaniesAsync.success(res))
+        )
+
+    return combineEpics(myCompaniesEpic, createCompanyEpic)
 }
