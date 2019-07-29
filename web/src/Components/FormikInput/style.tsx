@@ -30,15 +30,21 @@ export const StyledInput = styled.input<InputProps>`
     font-weight: 500;
     font-family: Montserrat;
     box-sizing: border-box;
+
     ${props =>
         props.error &&
         css`
             color: red;
             border: 1px solid red;
         `};
+
     &:focus {
-        outline: none;
-        border: 1px solid #48beff;
+        ${({ error }) =>
+            !error &&
+            css`
+                outline: none;
+                border: 1px solid #48beff;
+            `}
     }
 `
 export const ErrorMessage = styled.p`

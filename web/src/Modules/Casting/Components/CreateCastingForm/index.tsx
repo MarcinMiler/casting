@@ -21,13 +21,19 @@ export const CreateCastingForm: React.FC<Props> = ({ createCasting }) => {
     const wizard = useWizard(2)
     return (
         <Formik
-            validationSchema={CreateCastingSchema}
+            validationSchema={CreateCastingSchema[wizard.step - 1]}
             initialValues={createCastingInitialState}
             onSubmit={createCasting}
         >
-            <Form>
-                <WizardForm {...wizard} pages={formPages} />
-            </Form>
+            {({ validateForm }) => (
+                <Form>
+                    <WizardForm
+                        {...wizard}
+                        pages={formPages}
+                        validateForm={validateForm}
+                    />
+                </Form>
+            )}
         </Formik>
     )
 }
