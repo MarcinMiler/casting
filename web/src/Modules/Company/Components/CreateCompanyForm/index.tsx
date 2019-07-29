@@ -24,9 +24,15 @@ export const CreateCompanyForm: React.FC<Props> = ({ createCompany }) => {
             validationSchema={createCompanySchema}
             onSubmit={createCompany}
         >
-            <Form>
-                <WizardForm {...wizard} pages={formPages} />
-            </Form>
+            {({ validateForm }) => (
+                <Form>
+                    <WizardForm
+                        {...wizard}
+                        pages={formPages}
+                        validateForm={validateForm}
+                    />
+                </Form>
+            )}
         </Formik>
     )
 }
