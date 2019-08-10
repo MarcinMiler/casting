@@ -16,8 +16,8 @@ import { CastingModule } from './modules/casting/casting.module'
             process.env.NODE_ENV === 'dev'
                 ? {
                       type: 'postgres',
-                      host: 'localhost',
-                      port: 5431,
+                      host: 'db',
+                      port: 5432,
                       username: 'root',
                       password: 'root',
                       database: 'casting',
