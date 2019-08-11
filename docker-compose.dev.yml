@@ -7,8 +7,8 @@ services:
             context: ./web
             dockerfile: dev.Dockerfile
         volumes:
-            - './web:/usr/src/web'
-            - '/usr/src/web/node_modules'
+            - './web:/web:delegated'
+            - '/web/node_modules'
         ports:
             - '3000:3000'
         environment:
@@ -26,8 +26,8 @@ services:
             DB_PASSWORD: root
             DB_NAME: casting
         volumes:
-            - './server:/usr/src/server'
-            - '/usr/src/server/node_modules'
+            - './server:/server:delegated'
+            - '/server/node_modules'
         depends_on:
             - db
         ports:
@@ -38,7 +38,5 @@ services:
             POSTGRES_PASSWORD: root
             POSTGRES_USER: root
             POSTGRES_DB: casting
-        volumes:
-            - ./pgdata:/var/lib/postgresql/data
         ports:
             - '5432:5432'

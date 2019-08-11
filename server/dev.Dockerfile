@@ -1,10 +1,13 @@
-FROM node:10
+FROM node:alpine
 
-WORKDIR /usr/src/server
+WORKDIR /server
 
-COPY package.json package.json
+COPY ./yarn.lock ./
+COPY ./package.json ./
 
 RUN npm i -g yarn
 RUN yarn
+
+COPY . .
 
 CMD ["yarn", "start:dev"]
