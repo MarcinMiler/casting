@@ -11,7 +11,7 @@ import { combineEpics } from 'redux-observable'
 import { isActionOf } from 'typesafe-actions'
 
 import { Epic } from 'Config/rootEpic'
-import { RoutingService } from 'Common/Services/routingService'
+import { RoutingService } from 'Common/Services/Routing'
 import { showNotification } from 'Modules/Notification/actions'
 import { routesList } from 'Routes/routesList'
 import { CastingNotificationsFactory } from './notifications'

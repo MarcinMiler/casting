@@ -12,7 +12,7 @@ import {
 
 import { Epic } from 'Config/rootEpic'
 import { showNotification } from 'Modules/Notification/actions'
-import { RoutingService } from 'Common/Services/routingService'
+import { RoutingService } from 'Common/Services/Routing'
 import { routesList } from 'Routes/routesList'
 import { CompanyNotificationsFactory } from './notifications'
 import { CompanyService } from './service'

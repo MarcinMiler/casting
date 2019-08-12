@@ -12,7 +12,7 @@ import { combineEpics } from 'redux-observable'
 import { isActionOf } from 'typesafe-actions'
 
 import { Epic } from 'Config/rootEpic'
-import { RoutingService } from 'Common/Services/routingService'
+import { RoutingService } from 'Common/Services/Routing'
 import { showNotification } from 'Modules/Notification/actions'
 import { authNotificationsFactory } from './notifications'
 import { AuthService } from './service'
