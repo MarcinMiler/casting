@@ -10,7 +10,6 @@ import {
 } from 'rxjs/operators'
 import { combineEpics } from 'redux-observable'
 import { isActionOf } from 'typesafe-actions'
-import { from } from 'rxjs'
 
 import { Epic } from 'Config/rootEpic'
 import { RoutingService } from 'Common/Services/routingService'
@@ -28,17 +27,18 @@ export const authEpicFactory = (
         action$.pipe(
             filter(isActionOf(actions.loginAsync.request)),
             pluck('payload'),
-            exhaustMap(variables => authService.login(variables)),
-            tap(res => authService.saveToken(res.data.login)),
-            map(res => actions.loginAsync.success(res.data.login)),
-            tap(() => routingService.push('/castings')),
-            catchError(err =>
-                from([
-                    actions.loginAsync.failure(),
-                    showNotification(
-                        notificationFactory.loginNotificationFailed(err)
-                    )
-                ])
+            exhaustMap(variables =>
+                authService.login(variables).pipe(
+                    tap(res => authService.saveToken(res.data.login)),
+                    map(res => actions.loginAsync.success(res.data.login)),
+                    tap(() => routingService.push('/castings')),
+                    catchError(err => [
+                        actions.loginAsync.failure(),
+                        showNotification(
+                            notificationFactory.loginNotificationFailed(err)
+                        )
+                    ])
+                )
             )
         )
 
@@ -46,20 +46,21 @@ export const authEpicFactory = (
         action$.pipe(
             filter(isActionOf(actions.registerAsync.request)),
             pluck('payload'),
-            exhaustMap(variables => authService.register(variables)),
-            mergeMap(res => [
-                actions.registerAsync.success(res.data.register),
-                showNotification(
-                    notificationFactory.registerNotificationSucceed()
+            exhaustMap(variables =>
+                authService.register(variables).pipe(
+                    mergeMap(res => [
+                        actions.registerAsync.success(res.data.register),
+                        showNotification(
+                            notificationFactory.registerNotificationSucceed()
+                        )
+                    ]),
+                    catchError(err => [
+                        actions.registerAsync.failure(),
+                        showNotification(
+                            notificationFactory.registerNotificationFailed(err)
+                        )
+                    ])
                 )
-            ]),
-            catchError(err =>
-                from([
-                    actions.registerAsync.failure(),
-                    showNotification(
-                        notificationFactory.registerNotificationFailed(err)
-                    )
-                ])
             )
         )
 
@@ -67,15 +68,16 @@ export const authEpicFactory = (
         action$.pipe(
             filter(isActionOf(actions.getMeAsync.request)),
             pluck('payload'),
-            switchMap(() => authService.me()),
-            map(res => actions.getMeAsync.success(res)),
-            catchError(() =>
-                from([
-                    actions.getMeAsync.failure(),
-                    showNotification(
-                        notificationFactory.notAuthenticatedNotification()
-                    )
-                ])
+            switchMap(() =>
+                authService.me().pipe(
+                    map(res => actions.getMeAsync.success(res)),
+                    catchError(() => [
+                        actions.getMeAsync.failure(),
+                        showNotification(
+                            notificationFactory.notAuthenticatedNotification()
+                        )
+                    ])
+                )
             )
         )
 

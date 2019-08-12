@@ -9,7 +9,6 @@ import {
 } from 'rxjs/operators'
 import { combineEpics } from 'redux-observable'
 import { isActionOf } from 'typesafe-actions'
-import { from } from 'rxjs'
 
 import { Epic } from 'Config/rootEpic'
 import { RoutingService } from 'Common/Services/routingService'
@@ -28,49 +27,61 @@ export const castingEpicFactory = (
         action$.pipe(
             filter(isActionOf(actions.getCastingsAsync.request)),
             pluck('payload'),
-            switchMap(() => castingService.getCastings()),
-            map(res => actions.getCastingsAsync.success(res))
+            switchMap(() =>
+                castingService
+                    .getCastings()
+                    .pipe(map(res => actions.getCastingsAsync.success(res)))
+            )
         )
 
     const fetchMoreCastingsEpic: Epic = action$ =>
         action$.pipe(
             filter(isActionOf(actions.getMoreCastingsAsync.request)),
             pluck('payload'),
-            switchMap(variables => castingService.getMoreCastings(variables)),
-            map(res => actions.getMoreCastingsAsync.success(res))
+            switchMap(variables =>
+                castingService
+                    .getMoreCastings(variables)
+                    .pipe(map(res => actions.getMoreCastingsAsync.success(res)))
+            )
         )
 
     const fetchCastingEpic: Epic = action$ =>
         action$.pipe(
             filter(isActionOf(actions.getCastingAsync.request)),
             pluck('payload'),
-            switchMap(variables => castingService.getCasting(variables)),
-            map(res => actions.getCastingAsync.success(res))
+            switchMap(variables =>
+                castingService
+                    .getCasting(variables)
+                    .pipe(map(res => actions.getCastingAsync.success(res)))
+            )
         )
 
     const createCastingEpic: Epic = action$ =>
         action$.pipe(
             filter(isActionOf(actions.createCastingAsync.request)),
             pluck('payload'),
-            switchMap(variables => castingService.createCasting(variables)),
-            tap(res =>
-                routingService.push(
-                    routesList.casting(res.data.createCasting.id)
+            switchMap(variables =>
+                castingService.createCasting(variables).pipe(
+                    tap(res =>
+                        routingService.push(
+                            routesList.casting(res.data.createCasting.id)
+                        )
+                    ),
+                    mergeMap(res => [
+                        actions.createCastingAsync.success(
+                            res.data.createCasting
+                        ),
+                        showNotification(
+                            notificationFactory.createCastingNotificationSuccess()
+                        )
+                    ]),
+                    catchError(err => [
+                        actions.createCastingAsync.failure(err),
+                        showNotification(
+                            notificationFactory.createCastingNotificationFailed()
+                        )
+                    ])
                 )
-            ),
-            mergeMap(res => [
-                actions.createCastingAsync.success(res.data.createCasting),
-                showNotification(
-                    notificationFactory.createCastingNotificationSuccess()
-                )
-            ]),
-            catchError(err =>
-                from([
-                    actions.createCastingAsync.failure(err),
-                    showNotification(
-                        notificationFactory.createCastingNotificationFailed()
-                    )
-                ])
             )
         )
 

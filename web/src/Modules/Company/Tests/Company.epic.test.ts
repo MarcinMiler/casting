@@ -1,4 +1,4 @@
-import { of, Subject } from 'rxjs'
+import { of, Subject, throwError } from 'rxjs'
 import { ActionsObservable, StateObservable } from 'redux-observable'
 import { toArray } from 'rxjs/operators'
 import * as TypeMoq from 'typemoq'
@@ -41,7 +41,7 @@ describe('Casting Epic', () => {
                     TypeMoq.It.isObjectWith(createCompanyVariablesMock)
                 )
             )
-            .returns(() => Promise.resolve(apolloCreateCompanyMock))
+            .returns(() => of(apolloCreateCompanyMock))
             .verifiable()
 
         mockNotificationsFactory
@@ -78,19 +78,21 @@ describe('Casting Epic', () => {
     })
 
     it('should handle error on create casting', done => {
-        const error = new Error('Something went wrong')
-
         mockCompanyService
             .setup(x =>
                 x.createCompany(
                     TypeMoq.It.isObjectWith(createCompanyVariablesMock)
                 )
             )
-            .throws(error)
+            .returns(() => throwError('Something went wrong'))
             .verifiable()
 
         mockNotificationsFactory
-            .setup(x => x.createCompanyFailed(TypeMoq.It.isObjectWith(error)))
+            .setup(x =>
+                x.createCompanyFailed(
+                    TypeMoq.It.isObjectWith(new Error('Something went wrong'))
+                )
+            )
             .returns(() => mockCreateCastingNotificationFailed)
             .verifiable()
 
@@ -112,7 +114,7 @@ describe('Casting Epic', () => {
             .pipe(toArray())
             .subscribe(res => {
                 expect(res).toEqual([
-                    actions.createCompanyAsync.failure(error),
+                    actions.createCompanyAsync.failure('Something went wrong'),
                     showNotification(mockCreateCastingNotificationFailed)
                 ])
                 mockCompanyService.verifyAll()
@@ -125,7 +127,7 @@ describe('Casting Epic', () => {
     it('should fetch my companies', done => {
         mockCompanyService
             .setup(x => x.getMyCompanies())
-            .returns(() => Promise.resolve(apolloMyCompaniesMock))
+            .returns(() => of(apolloMyCompaniesMock))
             .verifiable()
 
         const companyEpicFactoryInstance = companyEpicFactory(
