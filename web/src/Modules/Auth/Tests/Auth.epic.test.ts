@@ -1,5 +1,5 @@
 import { StateObservable, ActionsObservable } from 'redux-observable'
-import { Subject, of } from 'rxjs'
+import { Subject, of, throwError } from 'rxjs'
 import { toArray } from 'rxjs/operators'
 import * as TypeMoq from 'typemoq'
 
@@ -38,7 +38,7 @@ describe('Auth Epic', () => {
     it('should handle login', done => {
         mockAuthService
             .setup(x => x.login(TypeMoq.It.isObjectWith(mockLoginVariables)))
-            .returns(() => Promise.resolve(mockLoginResponse))
+            .returns(() => of(mockLoginResponse))
             .verifiable()
 
         mockAuthService
@@ -77,7 +77,7 @@ describe('Auth Epic', () => {
     it('should not login', done => {
         mockAuthService
             .setup(x => x.login(TypeMoq.It.isObjectWith(mockLoginVariables)))
-            .throws(new Error())
+            .returns(() => throwError('Something went wrong'))
             .verifiable()
 
         mockRoutingService
@@ -121,7 +121,7 @@ describe('Auth Epic', () => {
             .setup(x =>
                 x.register(TypeMoq.It.isObjectWith(mockRegisterVariables))
             )
-            .returns(() => Promise.resolve(mockRegisterResponse))
+            .returns(() => of(mockRegisterResponse))
             .verifiable()
 
         mockNotificationFactory
@@ -156,7 +156,7 @@ describe('Auth Epic', () => {
             .setup(x =>
                 x.register(TypeMoq.It.isObjectWith(mockRegisterVariables))
             )
-            .throws(new Error('Registration Failed'))
+            .returns(() => throwError('Registration Failed'))
             .verifiable()
 
         mockNotificationFactory
@@ -193,7 +193,7 @@ describe('Auth Epic', () => {
     it('should get me', done => {
         mockAuthService
             .setup(x => x.me())
-            .returns(() => Promise.resolve(apolloMeMockResponse))
+            .returns(() => of(apolloMeMockResponse))
             .verifiable()
 
         const authEpicFactoryInstance = authEpicFactory(
@@ -221,7 +221,7 @@ describe('Auth Epic', () => {
     it('should catch error from me query', done => {
         mockAuthService
             .setup(x => x.me())
-            .throws(new Error())
+            .returns(() => throwError(''))
             .verifiable()
 
         mockNotificationFactory

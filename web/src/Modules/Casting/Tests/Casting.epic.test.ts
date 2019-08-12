@@ -1,4 +1,4 @@
-import { of, Subject } from 'rxjs'
+import { of, Subject, throwError } from 'rxjs'
 import { ActionsObservable, StateObservable } from 'redux-observable'
 import * as TypeMoq from 'typemoq'
 import { toArray } from 'rxjs/operators'
@@ -36,7 +36,7 @@ describe('Casting Epic', () => {
     it('should fetch castings', done => {
         mockCastingService
             .setup(x => x.getCastings())
-            .returns(() => Promise.resolve(ApolloCastingsMock))
+            .returns(() => of(ApolloCastingsMock))
             .verifiable()
 
         const castingEpicFactoryInstance = castingEpicFactory(
@@ -65,7 +65,7 @@ describe('Casting Epic', () => {
 
         mockCastingService
             .setup(x => x.getMoreCastings(TypeMoq.It.isObjectWith({ cursor })))
-            .returns(() => Promise.resolve(ApolloCastingsMock))
+            .returns(() => of(ApolloCastingsMock))
             .verifiable()
 
         const castingEpicFactoryInstance = castingEpicFactory(
@@ -95,7 +95,7 @@ describe('Casting Epic', () => {
             .setup(x =>
                 x.createCasting(TypeMoq.It.isObjectWith(CreateCastingVariables))
             )
-            .returns(() => Promise.resolve(ApolloCreateCastingMock))
+            .returns(() => of(ApolloCreateCastingMock))
             .verifiable()
 
         const { id } = ApolloCreateCastingMock.data.createCasting
@@ -142,7 +142,7 @@ describe('Casting Epic', () => {
             .setup(x =>
                 x.createCasting(TypeMoq.It.isObjectWith(CreateCastingVariables))
             )
-            .throws(new Error('Something went wrong'))
+            .returns(() => throwError('Something went wrong'))
             .verifiable()
 
         const { id } = ApolloCreateCastingMock.data.createCasting
@@ -173,9 +173,7 @@ describe('Casting Epic', () => {
             .pipe(toArray())
             .subscribe(res => {
                 expect(res).toEqual([
-                    actions.createCastingAsync.failure(
-                        new Error('Something went wrong')
-                    ),
+                    actions.createCastingAsync.failure('Something went wrong'),
                     showNotification(mockCreateCastingNotificationFailed)
                 ])
                 mockCastingService.verifyAll()

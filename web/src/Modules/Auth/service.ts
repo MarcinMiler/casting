@@ -1,4 +1,6 @@
-import { GraphqlService } from 'Common/Services/graphqlService'
+import { Observable } from 'rxjs'
+
+import { GraphqlService } from 'Common/Services/Graphql'
 import {
     MeQuery as MeQueryType,
     LoginMutation as LoginMutationType,
@@ -27,14 +29,16 @@ export class AuthService {
         return this.graphqlService.query<MeQueryType>(MeQuery)
     }
 
-    login(variables: LoginMutationVariables): Promise<LoginResponse> {
+    login(variables: LoginMutationVariables): Observable<LoginResponse> {
         return this.graphqlService.mutation<
             LoginMutationType,
             LoginMutationVariables
         >(LoginMutation, variables)
     }
 
-    register(variables: RegisterMutationVariables): Promise<RegisterResponse> {
+    register(
+        variables: RegisterMutationVariables
+    ): Observable<RegisterResponse> {
         return this.graphqlService.mutation<
             RegisterMutationType,
             RegisterMutationVariables

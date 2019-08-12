@@ -1,4 +1,5 @@
-import { GraphqlService } from 'Common/Services/graphqlService'
+import { Observable } from 'rxjs'
+import { GraphqlService } from 'Common/Services/Graphql'
 import {
     CastingsQuery,
     CreateCastingMutation,
@@ -43,7 +44,7 @@ export class CastingService {
 
     createCasting(
         variables: CreateCastingMutationVariables
-    ): Promise<CreateCastingResponse> {
+    ): Observable<CreateCastingResponse> {
         return this.graphqlService.mutation<
             CreateCastingMutationType,
             CreateCastingMutationVariables

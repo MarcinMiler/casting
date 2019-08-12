@@ -1,3 +1,6 @@
+import { Observable } from 'rxjs'
+
+import { GraphqlService } from 'Common/Services/Graphql'
 import {
     CreateCompanyMutationVariables,
     CreateCompanyMutation as CreateCompanyMutationType,
@@ -5,7 +8,6 @@ import {
     MyCompaniesQuery as MyCompaniesQueryType
 } from 'GraphqlTypes'
 import { CreateCompanyMutation, MyCompaniesQuery } from 'GraphqlQueries'
-import { GraphqlService } from 'Common/Services/graphqlService'
 
 export interface CreateCompanyResponse {
     data: {
@@ -22,7 +24,7 @@ export class CompanyService {
 
     createCompany(
         variables: CreateCompanyMutationVariables
-    ): Promise<CreateCompanyResponse> {
+    ): Observable<CreateCompanyResponse> {
         return this.graphqlService.mutation<
             CreateCompanyMutationType,
             CreateCompanyMutationVariables
