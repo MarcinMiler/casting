@@ -12,7 +12,7 @@
         "formik": "^1.5.7",
         "graphql": "^14.3.1",
         "leaflet": "^1.5.1",
-        "nanoid": "^2.0.3",
+        "nanoid": "^3.1.31",
         "ramda": "^0.26.1",
         "react": "^16.9.0-alpha.0",
         "react-apollo": "^2.5.6",
